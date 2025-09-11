@@ -16,7 +16,7 @@ export class User {
     @Column({unique: true})
     username: string;
 
-    @OneToMany(()=>Review,(review)=>review.users)
+    @OneToMany(()=>Review,(review)=>review.user)
     reviews: Review[];
 
     @OneToMany(()=>WatchlistItem,(watchlistItem)=>watchlistItem.user)

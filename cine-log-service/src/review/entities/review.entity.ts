@@ -18,7 +18,7 @@ export class Review {
     comment: string;
 
     @ManyToOne(()=>User, (user)=>user.reviews)
-    users: User
+    user: User
 
     @ManyToOne(()=>Movie, (movie)=>movie.reviews)
     movie: Movie

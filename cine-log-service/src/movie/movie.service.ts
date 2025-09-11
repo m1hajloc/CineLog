@@ -1,31 +1,69 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Movie } from './entities/movie.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { GenreService } from 'src/genre/genre.service';
 
 @Injectable()
 export class MovieService {
-  constructor(@InjectRepository(Movie) private movieRepository: Repository<Movie>){}
+  constructor(@InjectRepository(Movie) private movieRepository: Repository<Movie>, private genreService: GenreService){}
 
-  create(createMovieDto: CreateMovieDto) {
-    // var genres = 
+  async create(createMovieDto: CreateMovieDto) {
+     let movieGenres = await this.genreService.findGenresByIds(createMovieDto.genres);
+     let movie = {
+      title:createMovieDto.title,
+      releaseDate:createMovieDto.releaseDate,
+      overview:createMovieDto.overview ?? null,
+      genres: movieGenres
+     }
+     const createdMovie = this.movieRepository.create(movie);
+     await this.movieRepository.save(createdMovie);
+     return createdMovie;
   }
 
-  findAll() {
-    return `This action returns all movie`;
+  async findAll() {
+    return await this.movieRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} movie`;
+  async findByGenres(genres:number[]) {
+    return await this.movieRepository.find({
+    relations: ['genres'],
+    where: {
+      genres: {
+        genreId: In(genres),
+      },
+    },
+  });;
   }
 
-  update(id: number, updateMovieDto: UpdateMovieDto) {
-    return `This action updates a #${id} movie`;
+  async findOneById(id: number) {
+    return await this.movieRepository.findOne({where:{movieId:id}, relations:['genres','reviews']});
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} movie`;
+  async update(id: number, updateMovieDto: UpdateMovieDto) {
+    const movie = await this.movieRepository.findOne({
+    where: { movieId: id },
+    relations: ['genres'],
+  });
+
+  if (!movie) throw new NotFoundException('Movie not found');
+  
+  Object.assign(movie, updateMovieDto);
+
+  if (updateMovieDto.genres && updateMovieDto.genres.length > 0) {
+    movie.genres = await this.genreService.findGenresByIds(updateMovieDto.genres);
+  }
+
+  return this.movieRepository.save(movie);
+  }
+
+  async remove(id: number) {
+     const existing = await this.findOneById(id);
+        if(!existing)
+          throw new BadRequestException('Genre with that id does not exist!');
+        else
+          this.movieRepository.remove(existing);
   }
 }

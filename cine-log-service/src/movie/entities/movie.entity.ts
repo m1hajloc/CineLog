@@ -14,21 +14,21 @@ export class Movie {
     @Column()
     releaseDate: Date;
 
-    @Column('decimal', { precision: 3, scale: 1 })
-    average: number;
+    @Column('decimal', { precision: 3, scale: 1, nullable: true } ) 
+    average?: number;
     
-    @Column()
-    overview: string;
+    @Column({nullable:true})
+    overview?: string;
 
-    @OneToMany(()=>Review,(review)=>review.movie)
-        reviews: Review[];
+    @OneToMany(()=>Review,(review)=>review.movie, {nullable:true})
+        reviews?: Review[];
 
-    @ManyToMany(()=>WatchlistItem,(watchlistItem)=>watchlistItem.movies)
-        watchlistItems: WatchlistItem[];
+    @OneToMany(()=>WatchlistItem,(watchlistItem)=>watchlistItem.movie, {nullable:true})
+        watchlistItems?: WatchlistItem[];
 
     @ManyToMany(()=>Genre,(genre)=>genre.movies)
     @JoinTable()
-        genres: Genre[];
+        genres?: Genre[];
     
     // @Column()
     // picture: string;

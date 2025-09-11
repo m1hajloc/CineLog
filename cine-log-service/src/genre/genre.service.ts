@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, UseGuards } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Genre } from './entities/genre.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 @Injectable()
 export class GenreService {
@@ -24,6 +24,10 @@ export class GenreService {
 
   async findOne(id: number) {
     return await this.genreRepository.findOne({where:{genreId:id}});
+  }
+
+  async findGenresByIds(ids: number[]){
+    return await this.genreRepository.find({where:{genreId:In(ids)}});
   }
 
   async remove(id: number) {

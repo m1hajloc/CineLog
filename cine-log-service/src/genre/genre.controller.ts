@@ -3,7 +3,7 @@ import { GenreService } from './genre.service';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('genre')
-@UseGuards(AuthGuard('jwt'))
+// @UseGuards(AuthGuard('jwt'))
 export class GenreController {
   constructor(private readonly genreService: GenreService) {}
 

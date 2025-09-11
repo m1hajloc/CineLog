@@ -1,30 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Param, Delete, UseGuards, Put } from '@nestjs/common';
 import { WatchlistItemService } from './watchlist-item.service';
-import { CreateWatchlistItemDto } from './dto/create-watchlist-item.dto';
-import { UpdateWatchlistItemDto } from './dto/update-watchlist-item.dto';
-
+import { JwtGuard } from 'src/auth/guard/jwt.guard';
+import { GetUser } from 'src/auth/decorator/get-user.decorator';
+import { User } from 'src/user/entities/user.entity';
+@UseGuards(JwtGuard)
 @Controller('watchlist-item')
 export class WatchlistItemController {
   constructor(private readonly watchlistItemService: WatchlistItemService) {}
 
-  @Post()
-  create(@Body() createWatchlistItemDto: CreateWatchlistItemDto) {
-    return this.watchlistItemService.create(createWatchlistItemDto);
+  @Post(':movieId')
+  create(@Param('movieId') movieId: number, @GetUser() user: User) {
+    return this.watchlistItemService.create(movieId, user);
   }
 
   @Get()
-  findAll() {
-    return this.watchlistItemService.findAll();
+  findAll( @GetUser() user: User) {
+    return this.watchlistItemService.findByUser(user);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.watchlistItemService.findOne(+id);
+    return this.watchlistItemService.findOneById(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateWatchlistItemDto: UpdateWatchlistItemDto) {
-    return this.watchlistItemService.update(+id, updateWatchlistItemDto);
+  @Put(':id/:statusId')
+  update(@Param('id') id: string, @Param('statusId') statusId: number) {
+    return this.watchlistItemService.updateStatus(+id,statusId );
   }
 
   @Delete(':id')

@@ -1,7 +1,7 @@
 import { Movie } from "src/movie/entities/movie.entity";
 import { Status } from "src/status/entities/status.entity";
 import { User } from "src/user/entities/user.entity";
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class WatchlistItem {
@@ -14,8 +14,7 @@ export class WatchlistItem {
     @ManyToOne(()=>User,(user)=>user.watchlistItems)
     user: User;
 
-    @ManyToMany(()=>Movie,(movie)=>movie.watchlistItems)
-    @JoinTable()
-    movies: Movie[];
+    @ManyToOne(()=>Movie,(movie)=>movie.watchlistItems)
+    movie: Movie;
 
 }

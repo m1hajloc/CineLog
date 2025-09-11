@@ -25,7 +25,7 @@ export class AuthService {
         if(!isMatching)
           throw new BadRequestException("Password is not correct!");
         
-        return this.signToken(existing.userId,existing.email);
+        return this.signToken(existing.userId, existing.email);
       }
     
 
