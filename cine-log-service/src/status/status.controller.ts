@@ -7,10 +7,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { StatusService } from './status.service';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtGuard } from 'src/auth/guard/jwt.guard';
 
 @Controller('status')
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtGuard)
 export class StatusController {
   constructor(private readonly statusService: StatusService) {}
 

@@ -11,14 +11,16 @@ import {
 import { MovieService } from './movie.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { AdminGuard } from 'src/auth/decorator/admin.decorator';
+import { JwtGuard } from 'src/auth/guard/jwt.guard';
 
 @Controller('movie')
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtGuard)
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
   @Post()
+  @UseGuards(AdminGuard)
   create(@Body() createMovieDto: CreateMovieDto) {
     return this.movieService.create(createMovieDto);
   }
@@ -38,11 +40,13 @@ export class MovieController {
   }
 
   @Put(':id')
+  @UseGuards(AdminGuard)
   update(@Param('id') id: string, @Body() updateMovieDto: UpdateMovieDto) {
     return this.movieService.update(+id, updateMovieDto);
   }
 
   @Delete(':id')
+  @UseGuards(AdminGuard)
   remove(@Param('id') id: string) {
     return this.movieService.remove(+id);
   }

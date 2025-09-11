@@ -9,6 +9,7 @@ import { Movie } from './entities/movie.entity';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GenreService } from 'src/genre/genre.service';
+import { Review } from 'src/review/entities/review.entity';
 
 @Injectable()
 export class MovieService {
@@ -45,6 +46,15 @@ export class MovieService {
         },
       },
     });
+  }
+
+  async updateMovieAverage(movie: Movie, reviews: Review[]) {
+    if (reviews.length === 0) movie.average = 0;
+    else {
+      const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+      movie.average = sum / reviews.length;
+    }
+    await this.movieRepository.save(movie);
   }
 
   async findOneById(id: number) {

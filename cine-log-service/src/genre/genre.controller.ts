@@ -2,17 +2,15 @@ import {
   Controller,
   Get,
   Post,
-  Body,
-  Patch,
   Param,
   Delete,
   UseGuards,
 } from '@nestjs/common';
 import { GenreService } from './genre.service';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtGuard } from 'src/auth/guard/jwt.guard';
 
 @Controller('genre')
-// @UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtGuard)
 export class GenreController {
   constructor(private readonly genreService: GenreService) {}
 

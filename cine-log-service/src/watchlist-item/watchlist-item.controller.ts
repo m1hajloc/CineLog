@@ -11,6 +11,7 @@ import { WatchlistItemService } from './watchlist-item.service';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { GetUser } from 'src/auth/decorator/get-user.decorator';
 import { User } from 'src/user/entities/user.entity';
+
 @UseGuards(JwtGuard)
 @Controller('watchlist-item')
 export class WatchlistItemController {

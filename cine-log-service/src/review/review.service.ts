@@ -10,6 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Review } from './entities/review.entity';
 import { MovieService } from 'src/movie/movie.service';
+import { Movie } from 'src/movie/entities/movie.entity';
 
 @Injectable()
 export class ReviewService {
@@ -31,6 +32,10 @@ export class ReviewService {
     };
     const createdReview = this.reviewRepository.create(review);
     await this.reviewRepository.save(createdReview);
+    await this.movieService.updateMovieAverage(
+      existingMovie,
+      await this.findByMovie(createReviewDto.movieId),
+    );
     return createdReview;
   }
 
@@ -63,13 +68,26 @@ export class ReviewService {
 
     Object.assign(review, updateReviewDto);
 
-    return this.reviewRepository.save(review);
+    const toReturn = await this.reviewRepository.save(review);
+
+    if (review)
+      await this.movieService.updateMovieAverage(
+        review.movie,
+        await this.findByMovie(review.movie.movieId),
+      );
+
+    return toReturn;
   }
 
   async remove(id: number) {
     const existing = await this.findOneById(id);
     if (!existing)
       throw new BadRequestException('Review with that id does not exist!');
-    else this.reviewRepository.remove(existing);
+    else await this.reviewRepository.remove(existing);
+
+    await this.movieService.updateMovieAverage(
+      existing.movie,
+      await this.findByMovie(existing.movie.movieId),
+    );
   }
 }

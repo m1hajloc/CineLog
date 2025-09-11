@@ -55,6 +55,7 @@ export class UserService {
       return safeUser;
     }
   }
+  
   async findOneByEmail(email: string) {
     const user = await this.usersRepository.findOne({
       where: { email: email },
