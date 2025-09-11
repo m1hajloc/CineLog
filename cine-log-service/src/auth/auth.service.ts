@@ -6,9 +6,9 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from './dto/login-user.dto';
-import { User } from 'src/user/entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { UserService } from 'src/user/user.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +16,7 @@ export class AuthService {
     private jwt: JwtService,
     @Inject(forwardRef(() => UserService))
     private userService: UserService,
+    private configService: ConfigService,
   ) {}
 
   async login(loginData: LoginUserDto) {
@@ -45,7 +46,7 @@ export class AuthService {
 
     const token = await this.jwt.signAsync(payload, {
       expiresIn: '15m',
-      secret: 'super-secret',
+      secret: this.configService.get<string>('JWT_SECRET'),
     });
 
     return {

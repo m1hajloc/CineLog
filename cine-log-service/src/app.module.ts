@@ -15,23 +15,31 @@ import { Status } from './status/entities/status.entity';
 import { Genre } from './genre/entities/genre.entity';
 import { WatchlistItem } from './watchlist-item/entities/watchlist-item.entity';
 import { Review } from './review/entities/review.entity';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mssql',
-      host: 'localhost',
-      port: 1433,
-      username: 'sa',
-      password: 'docker11!!',
-      database: 'CineLog',
-      entities: [User, Movie, Status, Genre, WatchlistItem, Review],
-      synchronize: true,
-      logging: true,
-      options: {
-        encrypt: false, // ⛔ bez TLS
-        trustServerCertificate: true, // ✅ jer koristiš lokalnu instancu bez sertifikata
-      },
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mssql',
+        host: configService.get<string>('DATABASE_HOST'),
+        port: parseInt(configService.get<string>('DATABASE_PORT', '1433')),
+        username: configService.get<string>('DATABASE_USER'),
+        password: configService.get<string>('DATABASE_PASSWORD'),
+        database: configService.get<string>('DATABASE_NAME'),
+        entities: [User, Movie, Status, Genre, WatchlistItem, Review],
+        synchronize: true,
+        logging: true,
+        options: {
+          encrypt: false,
+          trustServerCertificate: true,
+        },
+      }),
     }),
     UserModule,
     AuthModule,

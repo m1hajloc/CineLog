@@ -6,12 +6,17 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { RegisterUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { User } from './entities/user.entity';
+import { GetUser } from 'src/auth/decorator/get-user.decorator';
 
 @Controller('user')
+@UseGuards(AuthGuard('jwt'))
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -23,6 +28,11 @@ export class UserController {
   @Get()
   findAll() {
     return this.userService.findAll();
+  }
+
+  @Get('me')
+  me(@GetUser() user: User) {
+    return user;
   }
 
   @Get(':id')
