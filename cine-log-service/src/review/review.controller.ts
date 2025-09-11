@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { ReviewService } from './review.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
@@ -13,7 +22,7 @@ export class ReviewController {
 
   @Post()
   create(@Body() createReviewDto: CreateReviewDto, @GetUser() user: User) {
-    return this.reviewService.create(createReviewDto,user);
+    return this.reviewService.create(createReviewDto, user);
   }
 
   @Get()

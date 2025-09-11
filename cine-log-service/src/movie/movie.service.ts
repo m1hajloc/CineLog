@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Movie } from './entities/movie.entity';
@@ -8,62 +12,71 @@ import { GenreService } from 'src/genre/genre.service';
 
 @Injectable()
 export class MovieService {
-  constructor(@InjectRepository(Movie) private movieRepository: Repository<Movie>, private genreService: GenreService){}
+  constructor(
+    @InjectRepository(Movie) private movieRepository: Repository<Movie>,
+    private genreService: GenreService,
+  ) {}
 
   async create(createMovieDto: CreateMovieDto) {
-     let movieGenres = await this.genreService.findGenresByIds(createMovieDto.genres);
-     let movie = {
-      title:createMovieDto.title,
-      releaseDate:createMovieDto.releaseDate,
-      overview:createMovieDto.overview ?? null,
-      genres: movieGenres
-     }
-     const createdMovie = this.movieRepository.create(movie);
-     await this.movieRepository.save(createdMovie);
-     return createdMovie;
+    let movieGenres = await this.genreService.findGenresByIds(
+      createMovieDto.genres,
+    );
+    let movie = {
+      title: createMovieDto.title,
+      releaseDate: createMovieDto.releaseDate,
+      overview: createMovieDto.overview ?? null,
+      genres: movieGenres,
+    };
+    const createdMovie = this.movieRepository.create(movie);
+    await this.movieRepository.save(createdMovie);
+    return createdMovie;
   }
 
   async findAll() {
     return await this.movieRepository.find();
   }
 
-  async findByGenres(genres:number[]) {
+  async findByGenres(genres: number[]) {
     return await this.movieRepository.find({
-    relations: ['genres'],
-    where: {
-      genres: {
-        genreId: In(genres),
+      relations: ['genres'],
+      where: {
+        genres: {
+          genreId: In(genres),
+        },
       },
-    },
-  });;
+    });
   }
 
   async findOneById(id: number) {
-    return await this.movieRepository.findOne({where:{movieId:id}, relations:['genres','reviews']});
+    return await this.movieRepository.findOne({
+      where: { movieId: id },
+      relations: ['genres', 'reviews'],
+    });
   }
 
   async update(id: number, updateMovieDto: UpdateMovieDto) {
     const movie = await this.movieRepository.findOne({
-    where: { movieId: id },
-    relations: ['genres'],
-  });
+      where: { movieId: id },
+      relations: ['genres'],
+    });
 
-  if (!movie) throw new NotFoundException('Movie not found');
-  
-  Object.assign(movie, updateMovieDto);
+    if (!movie) throw new NotFoundException('Movie not found');
 
-  if (updateMovieDto.genres && updateMovieDto.genres.length > 0) {
-    movie.genres = await this.genreService.findGenresByIds(updateMovieDto.genres);
-  }
+    Object.assign(movie, updateMovieDto);
 
-  return this.movieRepository.save(movie);
+    if (updateMovieDto.genres && updateMovieDto.genres.length > 0) {
+      movie.genres = await this.genreService.findGenresByIds(
+        updateMovieDto.genres,
+      );
+    }
+
+    return this.movieRepository.save(movie);
   }
 
   async remove(id: number) {
-     const existing = await this.findOneById(id);
-        if(!existing)
-          throw new BadRequestException('Genre with that id does not exist!');
-        else
-          this.movieRepository.remove(existing);
+    const existing = await this.findOneById(id);
+    if (!existing)
+      throw new BadRequestException('Genre with that id does not exist!');
+    else this.movieRepository.remove(existing);
   }
 }

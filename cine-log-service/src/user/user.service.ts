@@ -10,27 +10,31 @@ import { LoginUserDto } from 'src/auth/dto/login-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectRepository(User) private usersRepository: Repository<User>,
-  private authService: AuthService){}
+  constructor(
+    @InjectRepository(User) private usersRepository: Repository<User>,
+    private authService: AuthService,
+  ) {}
 
   async register(registerData: RegisterUserDto) {
-    if(registerData.password !== registerData.repeatPassword)
-    {
-      throw new BadRequestException("Passwords do not match!");
+    if (registerData.password !== registerData.repeatPassword) {
+      throw new BadRequestException('Passwords do not match!');
     }
 
     const hashedPassword = await bcrypt.hash(registerData.password, 10);
 
-    var user = this.usersRepository.create({email:registerData.email,password: hashedPassword,username: registerData.username});
+    var user = this.usersRepository.create({
+      email: registerData.email,
+      password: hashedPassword,
+      username: registerData.username,
+    });
     await this.usersRepository.save(user);
 
-    const loginData:LoginUserDto = {
-      email:registerData.email,
-      password: registerData.password
-    }
+    const loginData: LoginUserDto = {
+      email: registerData.email,
+      password: registerData.password,
+    };
 
     return this.authService.login(loginData);
-    
   }
 
   async findAll() {
@@ -38,24 +42,22 @@ export class UserService {
   }
 
   async findOne(id: number) {
-    const user = await this.usersRepository.findOne({where:{userId: id}}) 
-    if(!user)
-      throw new BadRequestException('User with that id doesnt exist');
-    else
-      {
+    const user = await this.usersRepository.findOne({ where: { userId: id } });
+    if (!user) throw new BadRequestException('User with that id doesnt exist');
+    else {
       const { password, ...safeUser } = user;
       return safeUser;
     }
-    }
-    async findOneByEmail(email: string) {
-    const user = await this.usersRepository.findOne({where:{email: email}}) 
-    if(!user)
-      throw new BadRequestException('User with that id doesnt exist');
-    else
-      {
+  }
+  async findOneByEmail(email: string) {
+    const user = await this.usersRepository.findOne({
+      where: { email: email },
+    });
+    if (!user) throw new BadRequestException('User with that id doesnt exist');
+    else {
       return user;
     }
-    }
+  }
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;

@@ -25,7 +25,7 @@ import { Review } from './review/entities/review.entity';
       username: 'sa',
       password: 'docker11!!',
       database: 'CineLog',
-      entities: [User,Movie,Status,Genre,WatchlistItem,Review],
+      entities: [User, Movie, Status, Genre, WatchlistItem, Review],
       synchronize: true,
       logging: true,
       options: {
@@ -39,7 +39,7 @@ import { Review } from './review/entities/review.entity';
     ReviewModule,
     WatchlistItemModule,
     StatusModule,
-    GenreModule
+    GenreModule,
   ],
   controllers: [AppController],
   providers: [AppService],

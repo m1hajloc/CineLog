@@ -1,4 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { StatusService } from './status.service';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -8,7 +15,7 @@ export class StatusController {
   constructor(private readonly statusService: StatusService) {}
 
   @Post(':statusName')
-  create(@Param('statusName') statusName: string ) {
+  create(@Param('statusName') statusName: string) {
     return this.statusService.create(statusName);
   }
 

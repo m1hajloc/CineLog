@@ -6,9 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GenreModule } from 'src/genre/genre.module';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Movie]), GenreModule],
+  imports: [TypeOrmModule.forFeature([Movie]), GenreModule],
   controllers: [MovieController],
   providers: [MovieService],
-  exports:[MovieService]
+  exports: [MovieService],
 })
 export class MovieModule {}

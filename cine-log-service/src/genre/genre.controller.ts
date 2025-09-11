@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { GenreService } from './genre.service';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -8,7 +17,7 @@ export class GenreController {
   constructor(private readonly genreService: GenreService) {}
 
   @Post(':genreName')
-  create(@Param('genreName') genreName: string ) {
+  create(@Param('genreName') genreName: string) {
     return this.genreService.create(genreName);
   }
 

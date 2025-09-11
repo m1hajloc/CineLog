@@ -7,7 +7,11 @@ import { MovieModule } from 'src/movie/movie.module';
 import { StatusModule } from 'src/status/status.module';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([WatchlistItem]),MovieModule, StatusModule],
+  imports: [
+    TypeOrmModule.forFeature([WatchlistItem]),
+    MovieModule,
+    StatusModule,
+  ],
   controllers: [WatchlistItemController],
   providers: [WatchlistItemService],
 })

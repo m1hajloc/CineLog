@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Param, Delete, UseGuards, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  Delete,
+  UseGuards,
+  Put,
+} from '@nestjs/common';
 import { WatchlistItemService } from './watchlist-item.service';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { GetUser } from 'src/auth/decorator/get-user.decorator';
@@ -14,7 +22,7 @@ export class WatchlistItemController {
   }
 
   @Get()
-  findAll( @GetUser() user: User) {
+  findAll(@GetUser() user: User) {
     return this.watchlistItemService.findByUser(user);
   }
 
@@ -25,7 +33,7 @@ export class WatchlistItemController {
 
   @Put(':id/:statusId')
   update(@Param('id') id: string, @Param('statusId') statusId: number) {
-    return this.watchlistItemService.updateStatus(+id,statusId );
+    return this.watchlistItemService.updateStatus(+id, statusId);
   }
 
   @Delete(':id')
