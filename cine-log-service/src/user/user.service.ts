@@ -41,6 +41,12 @@ export class UserService {
     return await this.usersRepository.find();
   }
 
+  async me(user: User) {
+    return await this.usersRepository.findOne({
+      where: { userId: user.userId },
+    });
+  }
+
   async findOne(id: number) {
     const user = await this.usersRepository.findOne({ where: { userId: id } });
     if (!user) throw new BadRequestException('User with that id doesnt exist');

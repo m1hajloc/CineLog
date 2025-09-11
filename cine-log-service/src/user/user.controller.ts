@@ -32,7 +32,7 @@ export class UserController {
 
   @Get('me')
   me(@GetUser() user: User) {
-    return user;
+    return this.userService.me(user);
   }
 
   @Get(':id')
