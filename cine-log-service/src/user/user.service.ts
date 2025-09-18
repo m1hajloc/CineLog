@@ -16,25 +16,39 @@ export class UserService {
   ) {}
 
   async register(registerData: RegisterUserDto) {
-    if (registerData.password !== registerData.repeatPassword) {
-      throw new BadRequestException('Passwords do not match!');
+    try {
+      if (registerData.password !== registerData.repeatPassword) {
+        throw new BadRequestException('Passwords do not match!');
+      }
+
+      if (
+        await this.usersRepository.findOne({
+          where: { email: registerData.email },
+        })
+      )
+        throw new BadRequestException('Email already in use');
+
+      if (await this.findOneByUsername(registerData.username))
+        throw new BadRequestException('Username already in use');
+
+      const hashedPassword = await bcrypt.hash(registerData.password, 10);
+
+      var user = this.usersRepository.create({
+        email: registerData.email,
+        password: hashedPassword,
+        username: registerData.username,
+      });
+      await this.usersRepository.save(user);
+
+      const loginData: LoginUserDto = {
+        email: registerData.email,
+        password: registerData.password,
+      };
+
+      return this.authService.login(loginData);
+    } catch (ex) {
+      throw ex;
     }
-
-    const hashedPassword = await bcrypt.hash(registerData.password, 10);
-
-    var user = this.usersRepository.create({
-      email: registerData.email,
-      password: hashedPassword,
-      username: registerData.username,
-    });
-    await this.usersRepository.save(user);
-
-    const loginData: LoginUserDto = {
-      email: registerData.email,
-      password: registerData.password,
-    };
-
-    return this.authService.login(loginData);
   }
 
   async findAll() {
@@ -55,15 +69,23 @@ export class UserService {
       return safeUser;
     }
   }
-  
+
   async findOneByEmail(email: string) {
     const user = await this.usersRepository.findOne({
       where: { email: email },
     });
-    if (!user) throw new BadRequestException('User with that id doesnt exist');
+    if (!user)
+      throw new BadRequestException('User with that email doesnt exist');
     else {
       return user;
     }
+  }
+
+  async findOneByUsername(username: string) {
+    const user = await this.usersRepository.findOne({
+      where: { username: username },
+    });
+    return user;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
