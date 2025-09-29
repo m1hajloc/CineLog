@@ -1,0 +1,20 @@
+<div class="movie-card" (click)="openDetails()">
+  <img [src]="'assets/default-poster.jpg'" [alt]="movie.title" class="poster" />
+
+  <div class="details">
+    <h3 class="title">
+      {{ movie.title }}
+      <span *ngIf="movie.releaseDate">
+        ({{ movie.releaseDate | date : "yyyy" }})
+      </span>
+    </h3>
+
+    <p class="rating">⭐ {{ movie.average ?? "N/A" }} / 10</p>
+
+    <p class="genres" *ngIf="genreNames">{{ genreNames }}</p>
+
+    <p class="overview" *ngIf="movie.overview">
+      {{ movie.overview }}
+    </p>
+  </div>
+</div>

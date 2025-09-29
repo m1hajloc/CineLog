@@ -1,0 +1,28 @@
+<div class="movie-detail">
+  <div class="header">
+    <img
+      [src]="'assets/default-poster.jpg'"
+      [alt]="'assets/default-poster.jpg'"
+    />
+    <div class="info">
+      <h2>
+        {{ movie.title }}
+        <span *ngIf="movie.releaseDate"
+          >({{ movie.releaseDate | date : "yyyy" }})</span
+        >
+      </h2>
+      <p class="rating">⭐ {{ movie.average ?? "N/A" }} / 10</p>
+      <p class="genres" *ngIf="genreNames">{{ genreNames }}</p>
+      <p class="overview" *ngIf="movie.overview">{{ movie.overview }}</p>
+      <button class="btn btn-secondary" (click)="addToWatchlist()">
+        Add to Watchlist
+      </button>
+    </div>
+  </div>
+
+  <div class="actions">
+    <div class="reviews-placeholder">
+      Reviews are not available yet. Coming soon!
+    </div>
+  </div>
+</div>

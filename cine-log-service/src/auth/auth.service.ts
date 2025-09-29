@@ -32,20 +32,29 @@ export class AuthService {
 
     if (!isMatching) throw new BadRequestException('Password is not correct!');
 
-    return this.signToken(existing.userId, existing.email);
+    return this.signToken(
+      existing.userId,
+      existing.email,
+      existing.username,
+      existing.admin,
+    );
   }
 
   async signToken(
     userId: number,
     email: string,
+    username: string,
+    admin: boolean,
   ): Promise<{ access_token: string }> {
     const payload = {
       sub: userId,
       email,
+      username,
+      admin,
     };
 
     const token = await this.jwt.signAsync(payload, {
-      expiresIn: '15m',
+      expiresIn: '60m',
       secret: this.configService.get<string>('JWT_SECRET'),
     });
 

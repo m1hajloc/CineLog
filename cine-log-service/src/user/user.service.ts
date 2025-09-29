@@ -39,13 +39,8 @@ export class UserService {
         username: registerData.username,
       });
       await this.usersRepository.save(user);
-
-      const loginData: LoginUserDto = {
-        email: registerData.email,
-        password: registerData.password,
-      };
-
-      return this.authService.login(loginData);
+      const { password, ...result } = user;
+      return result;
     } catch (ex) {
       throw ex;
     }

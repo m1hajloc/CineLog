@@ -9,7 +9,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { Auth } from '../auth';
+import { AuthService } from '../auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -19,7 +19,7 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './register.css',
 })
 export class Register {
-  constructor(private service: Auth, private router: Router) {}
+  constructor(private service: AuthService, private router: Router) {}
 
   private passwordMatchValidator: ValidatorFn = (
     control: AbstractControl
@@ -60,7 +60,7 @@ export class Register {
     this.service.register(this.getFormValue()).subscribe({
       next: (data) => {
         console.log('Registration successful:', data);
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
       },
       error: (err) => {
         const message =

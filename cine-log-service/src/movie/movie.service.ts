@@ -34,7 +34,9 @@ export class MovieService {
   }
 
   async findAll() {
-    return await this.movieRepository.find();
+    return await this.movieRepository.find({
+      relations: ['genres', 'reviews'],
+    });
   }
 
   async findByGenres(genres: number[]) {

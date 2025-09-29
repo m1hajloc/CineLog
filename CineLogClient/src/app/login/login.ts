@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Auth } from '../auth';
+import { AuthService } from '../auth/auth.service';
 import {
   FormControl,
   FormGroup,
@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { login } from '../auth/auth.action';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './login.css',
 })
 export class Login {
-  constructor(private service: Auth, private router: Router) {}
+  constructor(
+    private service: AuthService,
+    private store: Store,
+    private router: Router
+  ) {}
 
   public loginForm = new FormGroup({
     password: new FormControl('', [
@@ -33,17 +39,8 @@ export class Login {
     };
   }
 
-  public async onSubmit() {
-    this.service.login(this.getFormValue()).subscribe({
-      next: (data) => {
-        console.log('Login successful:', data);
-        this.router.navigate(['/']);
-      },
-      error: (err) => {
-        const message =
-          err?.error?.message || 'Login failed. Please try again.';
-        alert(message);
-      },
-    });
+  onSubmit() {
+    const credentials = this.getFormValue();
+    this.store.dispatch(login({ credentials: this.getFormValue() }));
   }
 }
