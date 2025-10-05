@@ -11,6 +11,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
+import { registerDto } from '../contracts';
 
 @Component({
   selector: 'app-register',

@@ -6,6 +6,7 @@ import { Observable, tap } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 
 import { loginFailure, loginSuccess, logout } from './auth.action';
+import { loginDto, registerDto } from '../contracts';
 
 interface JwtPayload {
   sub: string; // user id

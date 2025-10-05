@@ -1,29 +1,9 @@
 <div class="watchlist">
   <h2>Your Watchlist</h2>
-
-  <div class="movie-list">
-    <div class="movie-card" *ngFor="let item of watchlist">
-      <!-- Movie info -->
-      <app-movie [movie]="item.movie"></app-movie>
-
-      <!-- Status selector -->
-      <div class="actions">
-        <label for="status-{{ item.movie.movieId }}">Status:</label>
-        <select
-          id="status-{{ item.movie.movieId }}"
-          [(ngModel)]="item.statusId"
-        >
-          <option *ngFor="let s of status" [value]="s.statusId">
-            {{ s.name }}
-          </option>
-        </select>
-
-        <!-- Remove button -->
-
-        <button (click)="markForRemoval(item)" class="remove-btn">
-          ✖ Remove
-        </button>
-      </div>
-    </div>
-  </div>
+  <app-watchlist-item
+    *ngFor="let item of watchlist"
+    [watchlistItemAndReview]="item"
+    [statusOptions]="statusOptions"
+    (removed)="onItemRemoved($event)"
+  ></app-watchlist-item>
 </div>

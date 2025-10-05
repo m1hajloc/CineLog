@@ -27,9 +27,19 @@ export class WatchlistItemController {
     return this.watchlistItemService.findByUser(user);
   }
 
+  @Get('bestRated')
+  getBestRated(@GetUser() user: User) {
+    return this.watchlistItemService.getBestRated(user);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.watchlistItemService.findOneById(+id);
+  }
+
+  @Get('isInWatchlist/:movieId')
+  isInWatchlist(@Param('movieId') movieId: string, @GetUser() user: User) {
+    return this.watchlistItemService.isInWatchlist(+movieId, user);
   }
 
   @Put(':id/:statusId')
@@ -37,8 +47,8 @@ export class WatchlistItemController {
     return this.watchlistItemService.updateStatus(+id, statusId);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.watchlistItemService.remove(+id);
+  @Delete(':wathclistItemId')
+  async remove(@Param('wathclistItemId') wathclistItemId: string) {
+    return await this.watchlistItemService.remove(+wathclistItemId);
   }
 }

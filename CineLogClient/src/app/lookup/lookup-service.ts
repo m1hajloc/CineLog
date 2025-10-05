@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, switchMap, take } from 'rxjs';
+import { firstValueFrom, Observable, switchMap, take } from 'rxjs';
 import { selectToken } from '../auth/auth.selector';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Status } from '../contracts';
 
 @Injectable({
   providedIn: 'root',
@@ -12,16 +13,26 @@ export class LookupService {
 
   constructor(private http: HttpClient, private store: Store) {}
 
-  getStatus(): Observable<Status[]> {
-    return this.store.select(selectToken).pipe(
-      take(1), // take the latest token once
-      switchMap((token) => {
-        let headers = new HttpHeaders();
-        if (token) {
-          headers = headers.set('Authorization', `Bearer ${token}`);
-        }
-        return this.http.get<Status[]>(`${this.apiUrl}status`, { headers });
-      })
-    );
+  private statuses!: Status[];
+
+  async getStatus(): Promise<Status[]> {
+    if (this.statuses) return this.statuses;
+    else {
+      const token = await firstValueFrom(
+        this.store.select(selectToken).pipe(take(1))
+      );
+
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+
+      return firstValueFrom(
+        this.http.get<Status[]>(`${this.apiUrl}status`, { headers })
+      ).then((data) => {
+        this.statuses = data;
+        return data;
+      });
+    }
   }
 }

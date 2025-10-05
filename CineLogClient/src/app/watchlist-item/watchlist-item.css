@@ -1,0 +1,15 @@
+/* Optional custom CSS for additional polish */
+
+p {
+    margin-bottom: 0.25rem; /* tighter spacing between paragraphs */
+  }
+  
+  img {
+    max-height: 150px; /* optional: limit image height */
+    object-fit: cover; /* maintain aspect ratio and crop if needed */
+  }
+  
+  .btn {
+    font-size: 0.9rem; /* slightly smaller buttons if you like */
+  }
+  

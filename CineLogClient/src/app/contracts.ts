@@ -1,15 +1,15 @@
-interface registerDto {
+export interface registerDto {
   username: string;
   password: string;
   email: string;
   repeatPassword: string;
 }
-interface loginDto {
+export interface loginDto {
   password: string;
   email: string;
 }
 
-interface Movie {
+export interface Movie {
   movieId: number;
   title: string;
   overview: string;
@@ -19,23 +19,34 @@ interface Movie {
   genres?: Genre[];
 }
 
-interface Genre {
+export interface Genre {
   genreId: number;
   name: string;
 }
 
-interface Status {
+export interface Status {
   statusId: number;
   name: string;
 }
 
-interface Review {
-  reviewId: number;
+export interface Review {
+  reviewId?: number;
   rating: number;
   comment: string;
+  movie?: Movie 
 }
 
-interface WatchlistItem {
+export interface WatchlistItem {
+  watchlistItemId: number;
   movie: Movie;
-  statusId: number; // ← used in select binding
+  status: Status; // ← used in select binding
+}
+
+export interface WatchlistItemAndReview {
+  watchlistItem: WatchlistItem;
+  review: Review;
+}
+export interface isInWatchlistDTO{
+  inWatchlist: boolean
+  watchlistItemId?: number
 }

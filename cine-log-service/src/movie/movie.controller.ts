@@ -39,6 +39,11 @@ export class MovieController {
     return this.movieService.findOneById(+id);
   }
 
+  @Get('bestRated')
+  getBestRated() {
+    return this.movieService.getBestRated();
+  }
+
   @Put(':id')
   @UseGuards(AdminGuard)
   update(@Param('id') id: string, @Body() updateMovieDto: UpdateMovieDto) {

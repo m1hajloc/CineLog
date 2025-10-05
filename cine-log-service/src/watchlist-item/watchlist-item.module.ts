@@ -5,13 +5,16 @@ import { WatchlistItem } from './entities/watchlist-item.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MovieModule } from 'src/movie/movie.module';
 import { StatusModule } from 'src/status/status.module';
+import { ReviewModule } from 'src/review/review.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([WatchlistItem]),
     MovieModule,
     StatusModule,
+    ReviewModule,
   ],
+  exports: [WatchlistItemService],
   controllers: [WatchlistItemController],
   providers: [WatchlistItemService],
 })

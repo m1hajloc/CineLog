@@ -1,5 +1,7 @@
+import { Movie } from "src/movie/entities/movie.entity";
+
 export class CreateReviewDto {
   rating: number;
-  movieId: number;
+  movie: Movie;
   comment: string;
 }

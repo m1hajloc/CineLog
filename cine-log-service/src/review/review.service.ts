@@ -19,24 +19,31 @@ export class ReviewService {
     private movieService: MovieService,
   ) {}
 
-  async create(createReviewDto: CreateReviewDto, user: User) {
-    let existingMovie = await this.movieService.findOneById(
-      createReviewDto.movieId,
+  async upsert(review: CreateReviewDto, user: User) {
+    let existing = await this.findByMovieAndUser(
+      review.movie.movieId,
+      user.userId,
     );
-    if (!existingMovie) throw new BadRequestException('Movie doesnt exist!');
-    let review = {
-      comment: createReviewDto.comment,
-      rating: createReviewDto.rating,
-      movie: existingMovie,
-      user: user,
-    };
-    const createdReview = this.reviewRepository.create(review);
-    await this.reviewRepository.save(createdReview);
-    await this.movieService.updateMovieAverage(
-      existingMovie,
-      await this.findByMovie(createReviewDto.movieId),
+    if (existing) {
+      existing.comment = review.comment;
+      existing.rating = review.rating;
+    } else {
+      let newReview = {
+        movie: review.movie,
+        rating: review.rating,
+        comment: review.comment,
+        user: user,
+      };
+      existing = this.reviewRepository.create(newReview);
+    }
+
+    await this.reviewRepository.save(existing);
+    var movie = await this.movieService.updateMovieAverage(
+      review.movie,
+      await this.findByMovie(review.movie.movieId),
     );
-    return createdReview;
+
+    return movie.average;
   }
 
   async findAll() {
@@ -48,6 +55,18 @@ export class ReviewService {
       where: {
         movie: {
           movieId: movieId,
+        },
+      },
+    });
+  }
+  async findByMovieAndUser(movieId: number, userId: number) {
+    return await this.reviewRepository.findOne({
+      where: {
+        movie: {
+          movieId: movieId,
+        },
+        user: {
+          userId: userId,
         },
       },
     });
@@ -89,5 +108,17 @@ export class ReviewService {
       existing.movie,
       await this.findByMovie(existing.movie.movieId),
     );
+  }
+
+  async findByUser(user: User) {
+    var reviews = await this.reviewRepository.find({
+      relations: ['movie'],
+      where: {
+        user: {
+          userId: user.userId,
+        },
+      },
+    });
+    return reviews;
   }
 }

@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { ReviewService } from './review.service';
 import { CreateReviewDto } from './dto/create-review.dto';
@@ -20,9 +21,9 @@ import { User } from 'src/user/entities/user.entity';
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
-  @Post()
-  create(@Body() createReviewDto: CreateReviewDto, @GetUser() user: User) {
-    return this.reviewService.create(createReviewDto, user);
+  @Put()
+  upsert(@Body() createReviewDto: CreateReviewDto, @GetUser() user: User) {
+    return this.reviewService.upsert(createReviewDto, user);
   }
 
   @Get()

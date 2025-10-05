@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectMovies } from './movies.selector';
 import { MovieComponent } from '../movie/movie';
+import { Movie } from '../contracts';
 
 @Component({
   selector: 'app-movies',

@@ -49,16 +49,6 @@ export class App implements OnInit {
           console.log(error);
         }
       );
-
-      this.lookupService.getStatus().subscribe(
-        (data) => {
-          this.store.dispatch(getStatus({ status: data }));
-          console.log(data);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
     }
   }
 }

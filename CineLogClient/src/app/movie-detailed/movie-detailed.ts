@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MovieService } from '../movies/movie.service';
 import { CommonModule } from '@angular/common';
+import { Movie } from '../contracts';
+import { Watchlist } from '../services/watchlist';
 
 @Component({
   selector: 'app-movie-detailed',
@@ -12,9 +14,11 @@ import { CommonModule } from '@angular/common';
 export class MovieDetailed {
   movie!: Movie;
   genreNames: string | null = null;
+  WatchlistItemId?: number;
   constructor(
     private route: ActivatedRoute,
-    private movieService: MovieService
+    private movieService: MovieService,
+    private watchlistService: Watchlist
   ) {}
 
   ngOnInit(): void {
@@ -25,13 +29,21 @@ export class MovieDetailed {
         if (this.movie && this.movie.genres)
           this.genreNames = this.movie.genres.map((g) => g.name).join(', ');
       });
+      this.watchlistService.isInWatchlist(+movieId).subscribe((data) => {
+        if (data.inWatchlist) this.WatchlistItemId = data.watchlistItemId;
+      });
     }
   }
 
   addToWatchlist() {
     this.movieService.addMovieToWatchlist(this.movie.movieId).subscribe({
-      next: (res) => console.log('Added to watchlist', res),
+      next: (res) => (this.WatchlistItemId = res.watchlistItemId),
       error: (err) => console.error('Error adding to watchlist', err),
     });
+  }
+  async removeFromWatchlist() {
+    if (this.WatchlistItemId)
+      await this.watchlistService.deleteFromWatchlist(this.WatchlistItemId);
+    this.WatchlistItemId = undefined;
   }
 }

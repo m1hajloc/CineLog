@@ -10,6 +10,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { MovieService } from 'src/movie/movie.service';
 import { StatusService } from 'src/status/status.service';
+import { ReviewService } from 'src/review/review.service';
+import { watch } from 'fs';
 
 @Injectable()
 export class WatchlistItemService {
@@ -17,6 +19,7 @@ export class WatchlistItemService {
     @InjectRepository(WatchlistItem)
     private wathclistItemRepository: Repository<WatchlistItem>,
     private movieService: MovieService,
+    private reviewService: ReviewService,
     private statusService: StatusService,
   ) {}
 
@@ -43,9 +46,25 @@ export class WatchlistItemService {
       relations: ['movie', 'status'],
     });
   }
+  async isInWatchlist(movieId: number, user: User) {
+    var watchlist = await this.wathclistItemRepository.findOne({
+      relations: ['movie', 'status'],
+      where: {
+        user: {
+          userId: user.userId,
+        },
+        movie: {
+          movieId: movieId,
+        },
+      },
+    });
+    return watchlist
+      ? { inWatchlist: true, watchlistItemId: watchlist.watchlistItemId }
+      : { inWatchlist: false };
+  }
 
   async findByUser(user: User) {
-    return await this.wathclistItemRepository.find({
+    var watchlist = await this.wathclistItemRepository.find({
       relations: ['movie', 'status'],
       where: {
         user: {
@@ -53,6 +72,13 @@ export class WatchlistItemService {
         },
       },
     });
+    var userReviews = await this.reviewService.findByUser(user);
+    const combined = watchlist.map((w) => ({
+      watchlistItem: w,
+      review: userReviews.find((r) => r.movie.movieId === w.movie.movieId),
+    }));
+
+    return combined;
   }
 
   async findOneById(watchlistItemId: number) {
@@ -66,22 +92,35 @@ export class WatchlistItemService {
     const watchlistItem = await this.wathclistItemRepository.findOne({
       where: { watchlistItemId: watchlistItemId },
     });
-
+    console.log(watchlistItemId, statusId);
     if (!watchlistItem) throw new NotFoundException('Review not found');
 
-    const status = this.statusService.findOne(statusId);
+    const status = await this.statusService.findOne(statusId);
 
     if (!status) throw new BadRequestException('Status doesnt exist');
 
-    Object.assign(watchlistItem, status);
+    watchlistItem.status = status;
 
     return this.wathclistItemRepository.save(watchlistItem);
   }
 
   async remove(id: number) {
     const existing = await this.findOneById(id);
-    if (!existing)
+    if (!existing) {
       throw new BadRequestException('Review with that id does not exist!');
-    else this.wathclistItemRepository.remove(existing);
+    }
+
+    await this.wathclistItemRepository.delete(id);
+    return existing; // ovde će id ostati jer nisi prosledio entitet u remove
+  }
+
+  async getBestRated(user: User) {
+    return (await this.findByUser(user))
+      .map((data) => data.watchlistItem.movie)
+      .sort((movie1, movie2) => {
+        if (!movie1.average) return -1;
+        if (!movie2.average) return 1;
+        return movie1.average - movie2.average;
+      });
   }
 }

@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, switchMap, take } from 'rxjs';
+import { firstValueFrom, Observable, switchMap, take } from 'rxjs';
 import { selectToken } from '../auth/auth.selector';
+import { Movie, WatchlistItem, WatchlistItemAndReview } from '../contracts';
 
 @Injectable({
   providedIn: 'root',
@@ -55,7 +56,7 @@ export class MovieService {
     );
   }
 
-  getWatchlist(): Observable<WatchlistItem[]> {
+  getWatchlist(): Observable<WatchlistItemAndReview[]> {
     return this.store.select(selectToken).pipe(
       take(1), // take the latest token once
       switchMap((token) => {
@@ -63,9 +64,12 @@ export class MovieService {
         if (token) {
           headers = headers.set('Authorization', `Bearer ${token}`);
         }
-        return this.http.get<WatchlistItem[]>(`${this.apiUrl}watchlist-item`, {
-          headers,
-        });
+        return this.http.get<WatchlistItemAndReview[]>(
+          `${this.apiUrl}watchlist-item`,
+          {
+            headers,
+          }
+        );
       })
     );
   }

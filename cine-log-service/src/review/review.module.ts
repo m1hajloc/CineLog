@@ -9,5 +9,6 @@ import { MovieModule } from 'src/movie/movie.module';
   imports: [TypeOrmModule.forFeature([Review]), MovieModule],
   controllers: [ReviewController],
   providers: [ReviewService],
+  exports: [ReviewService],
 })
 export class ReviewModule {}

@@ -10,6 +10,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { login } from '../auth/auth.action';
+import { loginDto } from '../contracts';
 
 @Component({
   selector: 'app-login',

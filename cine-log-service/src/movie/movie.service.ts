@@ -15,7 +15,7 @@ import { Review } from 'src/review/entities/review.entity';
 export class MovieService {
   constructor(
     @InjectRepository(Movie) private movieRepository: Repository<Movie>,
-    private genreService: GenreService,
+    private genreService: GenreService
   ) {}
 
   async create(createMovieDto: CreateMovieDto) {
@@ -47,6 +47,9 @@ export class MovieService {
           genreId: In(genres),
         },
       },
+      order: {
+        average: 'DESC',
+      },
     });
   }
 
@@ -56,7 +59,7 @@ export class MovieService {
       const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
       movie.average = sum / reviews.length;
     }
-    await this.movieRepository.save(movie);
+    return await this.movieRepository.save(movie);
   }
 
   async findOneById(id: number) {
@@ -90,5 +93,15 @@ export class MovieService {
     if (!existing)
       throw new BadRequestException('Genre with that id does not exist!');
     else this.movieRepository.remove(existing);
+  }
+
+  async getBestRated() {
+    return await this.movieRepository.find({
+      relations: ['genres'],
+      order: {
+        average: 'DESC',
+      },
+      take: 5,
+    });
   }
 }

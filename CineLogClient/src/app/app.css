@@ -1,3 +1,15 @@
 .app-class {
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* full viewport height */
+}
+
+main {
+  flex: 1; /* take remaining space */
+  padding-top: 2rem; /* optional spacing */
+  padding-bottom: 2rem;
+}
+
+footer {
+  flex-shrink: 0; /* ensure footer doesn't shrink */
 }
