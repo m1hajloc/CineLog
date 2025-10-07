@@ -15,7 +15,7 @@ import { Review } from 'src/review/entities/review.entity';
 export class MovieService {
   constructor(
     @InjectRepository(Movie) private movieRepository: Repository<Movie>,
-    private genreService: GenreService
+    private genreService: GenreService,
   ) {}
 
   async create(createMovieDto: CreateMovieDto) {
@@ -96,12 +96,13 @@ export class MovieService {
   }
 
   async getBestRated() {
-    return await this.movieRepository.find({
+    let test = await this.movieRepository.find({
       relations: ['genres'],
       order: {
         average: 'DESC',
       },
       take: 5,
     });
+    return test;
   }
 }

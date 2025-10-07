@@ -1,0 +1,77 @@
+<div class="container mt-5">
+  <div class="row bg-light rounded p-3 mb-3 align-items-center">
+    <!-- Info part: image + data -->
+    <div class="col-10 row align-items-center">
+      <!-- Movie data -->
+      <div class="col-10">
+        <p class="fw-bold mb-1">
+          {{ review.movie?.title }} ({{
+            review.movie?.releaseDate | date : "yyyy"
+          }})
+        </p>
+        @if(review.movie?.average ){
+        <p class="text-muted mb-0">
+          Rating:
+          {{ review.movie?.average + "⭐" }}
+        </p>
+        } @else{
+        <p class="text-muted mb-0">Rating: "N/A"</p>
+        }
+      </div>
+    </div>
+
+    <!-- Actions part: buttons -->
+    <div class="col-2 d-flex flex-column gap-2">
+      <button class="btn btn-primary w-100" (click)="openCommentModal()">
+        Change Review
+      </button>
+      <button class="btn btn-danger w-100" (click)="remove()">
+        Remove Review
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="reviewModal-{{ review.reviewId }}"
+  tabindex="-1"
+  aria-labelledby="statusModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Rate Movie</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label">Rating</label>
+        <select class="form-select" [(ngModel)]="review.rating">
+          <option *ngFor="let r of ratings" [value]="r">{{ r }}</option>
+        </select>
+
+        <label class="form-label mt-3">Comment</label>
+        <textarea
+          class="form-control"
+          rows="4"
+          [(ngModel)]="review.comment"
+          placeholder="Write your review here..."
+        ></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-primary" (click)="leaveRating()">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

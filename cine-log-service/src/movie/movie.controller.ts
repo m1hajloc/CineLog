@@ -25,10 +25,17 @@ export class MovieController {
     return this.movieService.create(createMovieDto);
   }
 
+  @Get('bestRated')
+  getBestRated() {
+    console.log('gotIntoFunction');
+    return this.movieService.getBestRated();
+  }
+  
   @Get()
   findAll() {
     return this.movieService.findAll();
   }
+
   @Post('movieByGenres')
   findAllByGenres(@Body('genres') genres: number[]) {
     return this.movieService.findByGenres(genres);
@@ -37,11 +44,6 @@ export class MovieController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.movieService.findOneById(+id);
-  }
-
-  @Get('bestRated')
-  getBestRated() {
-    return this.movieService.getBestRated();
   }
 
   @Put(':id')

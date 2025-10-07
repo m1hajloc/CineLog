@@ -1,1 +1,30 @@
-<p>home works!</p>
+<div class="home-page">
+
+  <!-- CineLog Hero Section -->
+  <div class="cinelog-hero text-center text-light">
+    <div class="hero-overlay">
+      <h1 class="hero-title">🎥 CineLog</h1>
+      <p class="hero-tagline">
+        Track what you watch. Discover what’s next.  
+        Your personal movie journey starts here.
+      </p>
+      <button class="btn btn-primary btn-lg mt-3" (click)="goToMovie()">Start Exploring</button>
+    </div>
+  </div>
+
+  <!-- Popular Movies -->
+  <section class="movie-section">
+    <h3>🔥 Popular Movies</h3>
+    <div class="movie-list">
+      <app-movie *ngFor="let m of bestRatedMovies" [movie]="m"></app-movie>
+    </div>
+  </section>
+
+  <!-- Watchlist -->
+  <section class="movie-section">
+    <h3>🎬 From Your Watchlist</h3>
+    <div class="movie-list">
+      <app-movie *ngFor="let m of watchlistMovies" [movie]="m"></app-movie>
+    </div>
+  </section>
+</div>

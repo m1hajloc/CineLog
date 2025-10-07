@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MovieService } from '../movies/movie.service';
+import { MovieService } from '../services/movie.service';
 import { Store } from '@ngrx/store';
 import { FormsModule } from '@angular/forms';
 import { Status, WatchlistItem, WatchlistItemAndReview } from '../contracts';
@@ -26,7 +26,7 @@ export class Watchlist implements OnInit {
 
     this.service.getWatchlist().subscribe({
       next: (items) => {
-        this.watchlist = items
+        this.watchlist = items;
         console.log(items);
       },
       error: (err) => console.error('Failed to load watchlist', err),
@@ -34,9 +34,9 @@ export class Watchlist implements OnInit {
   }
 
   onItemRemoved(id: number) {
-    console.log(id);
-    this.watchlist = this.watchlist.filter((x) => x.watchlistItem.watchlistItemId !== id);
-    console.log(this.watchlist);
+    this.watchlist = this.watchlist.filter(
+      (x) => x.watchlistItem.watchlistItemId !== id
+    );
   }
 
   // saveChanges() {

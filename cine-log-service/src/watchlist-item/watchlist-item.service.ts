@@ -121,6 +121,7 @@ export class WatchlistItemService {
         if (!movie1.average) return -1;
         if (!movie2.average) return 1;
         return movie1.average - movie2.average;
-      });
+      }).slice(0, 5);
+      
   }
 }

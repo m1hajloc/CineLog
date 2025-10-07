@@ -1,1 +1,10 @@
-<p>reviews works!</p>
+<div class="watchlist">
+  <h2>Your Reviews</h2>
+  <
+  <app-review-item
+    *ngFor="let item of reviews"
+    [review]="item"
+    [statusOptions]="statusOptions"
+    (removed)="onItemRemoved($event)"
+  ></app-review-item>
+</div>

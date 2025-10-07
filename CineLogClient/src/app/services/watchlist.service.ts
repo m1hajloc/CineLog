@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { firstValueFrom, Observable, switchMap, take } from 'rxjs';
-import { isInWatchlistDTO, WatchlistItem } from '../contracts';
+import { isInWatchlistDTO, Movie, WatchlistItem } from '../contracts';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { selectToken } from '../auth/auth.selector';
@@ -64,6 +64,19 @@ export class Watchlist {
         `${this.apiUrl}watchlist-item/${watchlistItemId}`,
         { headers }
       )
+    );
+  }
+
+  getWatchlistBestRated(): Observable<Movie[]> {
+    return this.store.select(selectToken).pipe(
+      take(1), // take the latest token once
+      switchMap((token) => {
+        let headers = new HttpHeaders();
+        if (token) {
+          headers = headers.set('Authorization', `Bearer ${token}`);
+        }
+        return this.http.get<Movie[]>(`${this.apiUrl}watchlist-item/bestRated`, { headers });
+      })
     );
   }
 }

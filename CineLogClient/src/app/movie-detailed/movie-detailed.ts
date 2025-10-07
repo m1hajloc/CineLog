@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MovieService } from '../movies/movie.service';
+import { MovieService } from '../services/movie.service';
 import { CommonModule } from '@angular/common';
 import { Movie } from '../contracts';
-import { Watchlist } from '../services/watchlist';
+import { Watchlist } from '../services/watchlist.service';
 
 @Component({
   selector: 'app-movie-detailed',

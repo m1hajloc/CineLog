@@ -27,8 +27,8 @@ export class ReviewController {
   }
 
   @Get()
-  findAll() {
-    return this.reviewService.findAll();
+  findAllByUser(@GetUser() user: User) {
+    return this.reviewService.findByUser(user);
   }
 
   @Get(':id')

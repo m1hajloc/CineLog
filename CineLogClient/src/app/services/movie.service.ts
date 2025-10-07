@@ -26,6 +26,21 @@ export class MovieService {
     );
   }
 
+  getBestRated(): Observable<Movie[]> {
+    return this.store.select(selectToken).pipe(
+      take(1), // take the latest token once
+      switchMap((token) => {
+        let headers = new HttpHeaders();
+        if (token) {
+          headers = headers.set('Authorization', `Bearer ${token}`);
+        }
+        return this.http.get<Movie[]>(`${this.apiUrl}movie/bestRated`, {
+          headers,
+        });
+      })
+    );
+  }
+
   getMovie(id: number): Observable<Movie> {
     return this.store.select(selectToken).pipe(
       take(1), // take the latest token once

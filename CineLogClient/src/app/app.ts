@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { loginSuccess } from './auth/auth.action';
-import { MovieService } from './movies/movie.service';
+import { MovieService } from './services/movie.service';
 import { error } from 'console';
 import { getMovies, getStatus } from './movies/movies.action';
 import { LookupService } from './lookup/lookup-service';

@@ -14,8 +14,8 @@ import {
   WatchlistItem,
   WatchlistItemAndReview,
 } from '../contracts';
-import { Watchlist } from '../services/watchlist';
-import { ReviewService } from '../services/review';
+import { Watchlist } from '../services/watchlist.service';
+import { ReviewService } from '../services/review.service';
 
 declare var bootstrap: any;
 
@@ -75,6 +75,15 @@ export class WatchlistItemComponent implements OnInit {
     // TODO: call service to save status
     this.statusModal.hide();
   }
+   async remove() {
+    await this.service.deleteFromWatchlist(
+      this.watchlistItemAndReview.watchlistItem.watchlistItemId
+    );
+    this.removed.emit(
+      this.watchlistItemAndReview.watchlistItem.watchlistItemId
+    );
+  }
+  
   openCommentModal() {
     const modalElement = document.getElementById(
       `commentModal-${this.watchlistItemAndReview.watchlistItem.watchlistItemId}`
@@ -83,14 +92,7 @@ export class WatchlistItemComponent implements OnInit {
     this.commentModal = new bootstrap.Modal(modalElement);
     this.commentModal.show();
   }
-  async remove() {
-    await this.service.deleteFromWatchlist(
-      this.watchlistItemAndReview.watchlistItem.watchlistItemId
-    );
-    this.removed.emit(
-      this.watchlistItemAndReview.watchlistItem.watchlistItemId
-    );
-  }
+ 
   leaveRating() {
     var review: Review = {
       comment: this.comment,
