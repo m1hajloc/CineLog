@@ -20,9 +20,7 @@ import { loginDto } from '../contracts';
 })
 export class Login {
   constructor(
-    private service: AuthService,
-    private store: Store,
-    private router: Router
+    private store: Store
   ) {}
 
   public loginForm = new FormGroup({
@@ -41,7 +39,6 @@ export class Login {
   }
 
   onSubmit() {
-    const credentials = this.getFormValue();
     this.store.dispatch(login({ credentials: this.getFormValue() }));
   }
 }

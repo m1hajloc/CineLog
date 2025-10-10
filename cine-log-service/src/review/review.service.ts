@@ -74,6 +74,7 @@ export class ReviewService {
 
   async findOneById(reviewId: number) {
     return await this.reviewRepository.findOne({
+      relations: ['movie'],
       where: { reviewId: reviewId },
     });
   }
@@ -100,14 +101,17 @@ export class ReviewService {
 
   async remove(id: number) {
     const existing = await this.findOneById(id);
+    console.log(existing);
     if (!existing)
       throw new BadRequestException('Review with that id does not exist!');
-    else await this.reviewRepository.remove(existing);
+    else await this.reviewRepository.delete(id);
 
     await this.movieService.updateMovieAverage(
       existing.movie,
       await this.findByMovie(existing.movie.movieId),
     );
+
+    return existing;
   }
 
   async findByUser(user: User) {

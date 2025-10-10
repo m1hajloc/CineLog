@@ -4,6 +4,14 @@ export interface registerDto {
   email: string;
   repeatPassword: string;
 }
+
+export interface updateUserDto {
+  username: string;
+  password: string;
+  email: string;
+  repeatPassword: string;
+  oldPassword: string;
+}
 export interface loginDto {
   password: string;
   email: string;
@@ -33,7 +41,7 @@ export interface Review {
   reviewId?: number;
   rating: number;
   comment: string;
-  movie?: Movie 
+  movie?: Movie;
 }
 
 export interface WatchlistItem {
@@ -46,7 +54,7 @@ export interface WatchlistItemAndReview {
   watchlistItem: WatchlistItem;
   review: Review;
 }
-export interface isInWatchlistDTO{
-  inWatchlist: boolean
-  watchlistItemId?: number
+export interface isInWatchlistDTO {
+  inWatchlist: boolean;
+  watchlistItemId?: number;
 }

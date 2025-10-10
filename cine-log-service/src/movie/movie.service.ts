@@ -65,7 +65,7 @@ export class MovieService {
   async findOneById(id: number) {
     return await this.movieRepository.findOne({
       where: { movieId: id },
-      relations: ['genres', 'reviews'],
+      relations: ['genres', 'reviews', 'reviews.user'],
     });
   }
 

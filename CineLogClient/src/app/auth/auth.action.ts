@@ -11,6 +11,11 @@ export const loginSuccess = createAction(
   props<{ token: string; user: any }>()
 );
 
+export const updateUser = createAction(
+  '[Auth] Update User',
+  props<{ user: any }>()
+);
+
 export const loginFailure = createAction(
   '[Auth] Login Failure',
   props<{ error: string }>()

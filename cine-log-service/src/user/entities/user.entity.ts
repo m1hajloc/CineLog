@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Review } from 'src/review/entities/review.entity';
 import { WatchlistItem } from 'src/watchlist-item/entities/watchlist-item.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
@@ -10,6 +11,7 @@ export class User {
   @Column({ unique: true })
   email: string;
 
+  @Exclude()
   @Column()
   password: string;
 

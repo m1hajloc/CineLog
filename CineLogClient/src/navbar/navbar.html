@@ -2,6 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand" routerLink="/">CineLog</a>
+
     <button
       class="navbar-toggler"
       type="button"
@@ -13,10 +14,16 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav ms-auto align-items-center">
+        @if(isAdmin){
         <li class="nav-item">
-          <a class="nav-link" routerLink="/">Home</a>
+          <a class="nav-link" routerLink="/add-movie">Add Movie</a>
+        </li>
+        }
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/movies" routerLinkActive="active"
@@ -32,6 +39,38 @@
           <a class="nav-link" routerLink="/reviews" routerLinkActive="active"
             >Reviews</a
           >
+        </li>
+
+        <!-- User Dropdown -->
+        <li class="nav-item dropdown ms-3">
+          <a
+            class="nav-link dropdown-toggle d-flex align-items-center"
+            href="#"
+            id="userDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="bi bi-person-circle me-1"></i>
+            <!-- Bootstrap icon -->
+            {{ "Account" }}
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="userDropdown"
+          >
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="/updateUser"
+                routerLinkActive="active"
+                >Edit Profile</a
+              >
+            </li>
+            <li>
+              <button class="dropdown-item" (click)="logout()">Logout</button>
+            </li>
+          </ul>
         </li>
       </ul>
     </div>

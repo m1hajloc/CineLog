@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { RegisterUserDto } from './dto/create-user.dto';
@@ -43,9 +44,9 @@ export class UserController {
   }
 
   @UseGuards(JwtGuard)
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @Put('update')
+  update(@GetUser() user: User, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(user.userId, updateUserDto);
   }
 
   @UseGuards(JwtGuard)

@@ -1,12 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, tap } from 'rxjs';
+import { Observable, switchMap, take } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 
-import { loginFailure, loginSuccess, logout } from './auth.action';
+import { logout } from './auth.action';
 import { loginDto, registerDto } from '../contracts';
+import { User } from './auth.state';
+import { selectToken } from './auth.selector';
 
 interface JwtPayload {
   sub: string; // user id
@@ -22,6 +24,7 @@ interface JwtPayload {
 export class AuthService {
   private readonly apiUrl = 'http://localhost:3000/'; // 👈 change this
   public isLogedIn: boolean = false;
+  public isAdmin: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -31,6 +34,19 @@ export class AuthService {
 
   register(data: registerDto): Observable<any> {
     return this.http.post(`${this.apiUrl}user/register`, data);
+  }
+
+  updateUser(data: registerDto): Observable<any> {
+    return this.store.select(selectToken).pipe(
+      take(1),
+      switchMap((token) => {
+        let headers = new HttpHeaders();
+        if (token) {
+          headers = headers.set('Authorization', `Bearer ${token}`);
+        }
+        return this.http.put(`${this.apiUrl}user/update`, data, { headers });
+      })
+    );
   }
 
   login(data: loginDto): Observable<{ access_token: string }> {
@@ -47,7 +63,25 @@ export class AuthService {
   logout() {
     localStorage.removeItem('auth');
     this.store.dispatch(logout());
+    this.isLogedIn = false;
+    this.isAdmin = false;
     this.router.navigate(['/login']);
+  }
+
+  GetMe(): Observable<User> {
+    return this.store.select(selectToken).pipe(
+      take(1),
+      switchMap((token) => {
+        let headers = new HttpHeaders();
+        if (token) {
+          headers = headers.set('Authorization', `Bearer ${token}`);
+        }
+        return this.http.get<User>(
+          `${this.apiUrl}user/me`,
+          { headers } // options
+        );
+      })
+    );
   }
 
   // getToken(): string | null {

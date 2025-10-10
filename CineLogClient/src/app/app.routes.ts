@@ -6,6 +6,7 @@ import { Movies } from './movies/movies';
 import { Register } from './register/register';
 import { Login } from './login/login';
 import { MovieDetailed } from './movie-detailed/movie-detailed';
+import { UpdateUser } from './update-user/update-user';
 
 export const appRoutes: Routes = [
   { path: '', component: Home },
@@ -14,6 +15,7 @@ export const appRoutes: Routes = [
   { path: 'watchlist', component: Watchlist },
   { path: 'reviews', component: Reviews },
   { path: 'register', component: Register },
+  { path: 'updateUser', component: UpdateUser },
   { path: 'login', component: Login },
   { path: '**', redirectTo: '' }, // catch-all
 ];

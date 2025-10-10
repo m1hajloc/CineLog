@@ -10,6 +10,8 @@ import { Navbar } from '../navbar/navbar';
 import { Router } from '@angular/router';
 import { AuthService } from './auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { selectIsAdmin } from './auth/auth.selector';
+import { User } from './auth/auth.state';
 
 @Component({
   selector: 'app-root',
@@ -26,14 +28,18 @@ export class App implements OnInit {
   private lookupService = inject(LookupService);
   private store = inject(Store);
   private router = inject(Router);
+  public user!: User;
 
-  ngOnInit() {
+  async ngOnInit() {
     if (typeof window !== 'undefined') {
       const savedAuth = localStorage.getItem('auth');
       if (savedAuth) {
         const { user, token } = JSON.parse(savedAuth);
         this.store.dispatch(loginSuccess({ user, token }));
         console.log('User loaded from localStorage:', user);
+        this.user = user;
+        console.log(this.user.admin);
+        this.authService.isAdmin = this.user.admin;
         this.authService.isLogedIn = true;
       } else {
         console.log('No logged in user');

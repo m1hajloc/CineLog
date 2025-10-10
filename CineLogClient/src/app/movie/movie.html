@@ -8,8 +8,11 @@
         ({{ movie.releaseDate | date : "yyyy" }})
       </span>
     </h3>
-
-    <p class="rating">⭐ {{ movie.average ?? "N/A" }} / 10</p>
+    @if(!movie.average || movie.average == 0){
+    <p class="rating">⭐  N/A / 10</p>
+    } @else{
+    <p class="rating">⭐ {{ movie.average }} / 10</p>
+    }
 
     <p class="genres" *ngIf="genreNames">{{ genreNames }}</p>
 

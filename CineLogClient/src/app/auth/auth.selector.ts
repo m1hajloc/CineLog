@@ -15,6 +15,11 @@ export const selectToken = createSelector(
   (state) => state?.token
 );
 
+export const selectIsAdmin = createSelector(
+  selectAuthState,
+  (state) => state?.user?.admin
+);
+
 export const selectIsLoggedIn = createSelector(
   selectAuthState,
   (state) => !!state.token

@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { RegisterUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,6 +11,7 @@ import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginUserDto } from 'src/auth/dto/login-user.dto';
+import { emit } from 'process';
 
 @Injectable()
 export class UserService {
@@ -83,8 +88,49 @@ export class UserService {
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const user = await this.usersRepository.findOne({
+      where: { userId: id },
+    });
+    if (!user) throw new NotFoundException('User not found');
+
+    if (
+      user.email !== updateUserDto.email &&
+      (await this.usersRepository.findOne({
+        where: { email: updateUserDto.email },
+      }))
+    )
+      throw new BadRequestException('Email already in use');
+
+    if (
+      user.username !== updateUserDto.username &&
+      (await this.usersRepository.findOne({
+        where: { username: updateUserDto.username },
+      }))
+    )
+      throw new BadRequestException('Username already in use');
+    if (updateUserDto.password !== updateUserDto.repeatPassword) {
+      throw new BadRequestException('Passwords do not match!');
+    }
+
+    if (
+      updateUserDto.oldPassword &&
+      updateUserDto.password &&
+      updateUserDto.repeatPassword &&
+      !(await bcrypt.compare(updateUserDto.oldPassword, user.password))
+    )
+      throw new BadRequestException('Old password is not correct');
+
+    user.email = updateUserDto.email;
+    user.username = updateUserDto.username;
+
+    console.log(user);
+    if (updateUserDto.password) {
+      const hashedPassword = await bcrypt.hash(updateUserDto.password, 10);
+      user.password = hashedPassword;
+    }
+
+    return this.usersRepository.save(user);
   }
 
   remove(id: number) {

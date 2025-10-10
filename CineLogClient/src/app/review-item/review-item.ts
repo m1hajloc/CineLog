@@ -29,6 +29,7 @@ export class ReviewItem {
   async remove() {
     if (this.review.reviewId) {
       await this.service.deleteReview(this.review.reviewId);
+      console.log('1', this.review.reviewId);
       this.removed.emit(this.review.reviewId);
     }
   }

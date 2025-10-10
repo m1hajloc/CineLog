@@ -92,7 +92,6 @@ export class WatchlistItemService {
     const watchlistItem = await this.wathclistItemRepository.findOne({
       where: { watchlistItemId: watchlistItemId },
     });
-    console.log(watchlistItemId, statusId);
     if (!watchlistItem) throw new NotFoundException('Review not found');
 
     const status = await this.statusService.findOne(statusId);
@@ -111,7 +110,7 @@ export class WatchlistItemService {
     }
 
     await this.wathclistItemRepository.delete(id);
-    return existing; // ovde će id ostati jer nisi prosledio entitet u remove
+    return existing;
   }
 
   async getBestRated(user: User) {
