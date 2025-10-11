@@ -2,7 +2,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  input,
   OnInit,
   Output,
 } from '@angular/core';
@@ -11,7 +10,6 @@ import { FormsModule } from '@angular/forms';
 import {
   Review,
   Status,
-  WatchlistItem,
   WatchlistItemAndReview,
 } from '../contracts';
 import { Watchlist } from '../services/watchlist.service';

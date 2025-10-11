@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../services/movie.service';
-import { Store } from '@ngrx/store';
 import { FormsModule } from '@angular/forms';
-import { Status, WatchlistItem, WatchlistItemAndReview } from '../contracts';
+import { Status, WatchlistItemAndReview } from '../contracts';
 import { WatchlistItemComponent } from '../watchlist-item/watchlist-item';
 import { LookupService } from '../services/lookup.service';
 

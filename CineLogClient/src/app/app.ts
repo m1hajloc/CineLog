@@ -1,15 +1,13 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { loginSuccess } from './auth/auth.action';
 import { MovieService } from './services/movie.service';
-import { error } from 'console';
-import { getMovies, getStatus } from './movies/movies.action';
-import { Navbar } from '../navbar/navbar';
+import { getMovies } from './movies/movies.action';
+import { Navbar } from './navbar/navbar';
 import { Router } from '@angular/router';
 import { AuthService } from './auth/auth.service';
 import { CommonModule } from '@angular/common';
-import { selectIsAdmin } from './auth/auth.selector';
 import { User } from './auth/auth.state';
 import { LookupService } from './services/lookup.service';
 
@@ -25,7 +23,6 @@ export class App implements OnInit {
 
   private moviesService = inject(MovieService);
   protected authService = inject(AuthService);
-  private lookupService = inject(LookupService);
   private store = inject(Store);
   private router = inject(Router);
   public user!: User;

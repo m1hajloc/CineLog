@@ -59,7 +59,7 @@ export interface Review {
 export interface WatchlistItem {
   watchlistItemId: number;
   movie: Movie;
-  status: Status; // ← used in select binding
+  status: Status;
 }
 
 export interface WatchlistItemAndReview {

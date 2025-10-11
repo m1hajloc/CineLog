@@ -1,21 +1,16 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
-  FormsModule,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { registerDto, updateUserDto } from '../contracts';
+import { updateUserDto } from '../contracts';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectToken, selectUser } from '../auth/auth.selector';
-import { User } from '../auth/auth.state';
 import { updateUser } from '../auth/auth.action';
 import { firstValueFrom, take } from 'rxjs';
 
