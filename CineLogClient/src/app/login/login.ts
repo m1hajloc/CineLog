@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import {
   FormControl,
@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { login } from '../auth/auth.action';
 import { loginDto } from '../contracts';
+import { selectAuthError } from '../auth/auth.selector';
 
 @Component({
   selector: 'app-login',
@@ -18,10 +19,15 @@ import { loginDto } from '../contracts';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class Login {
-  constructor(
-    private store: Store
-  ) {}
+export class Login implements OnInit {
+  constructor(private store: Store) {}
+  public loginError: string | null = null;
+
+  ngOnInit(): void {
+    this.store.select(selectAuthError).subscribe((error) => {
+      this.loginError = error;
+    });
+  }
 
   public loginForm = new FormGroup({
     password: new FormControl('', [

@@ -19,7 +19,7 @@ export class Home implements OnInit {
   constructor(
     private movieService: MovieService,
     private watchlistService: Watchlist,
-    private router: Router
+    private router: Router,
   ) {}
   ngOnInit(): void {
     forkJoin({

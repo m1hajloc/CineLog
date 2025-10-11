@@ -5,6 +5,10 @@
         <div class="card-body p-4">
           <h2 class="text-center mb-4">Login</h2>
 
+          <div *ngIf="loginError" class="alert alert-danger text-center mb-3">
+            {{ loginError }}
+          </div>
+
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <!-- Email -->
             <div class="mb-3">

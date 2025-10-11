@@ -41,20 +41,18 @@ export class App implements OnInit {
         console.log(this.user.admin);
         this.authService.isAdmin = this.user.admin;
         this.authService.isLogedIn = true;
-      } else {
-        console.log('No logged in user');
-      }
 
-      this.moviesService.getMovies().subscribe(
-        (movies) => {
-          this.store.dispatch(getMovies({ movies: movies }));
-          console.log(movies);
-        },
-        (error) => {
-          if (error.status === 401) this.router.navigate(['/login']);
-          console.log(error);
-        }
-      );
+        this.moviesService.getMovies().subscribe({
+          next: (movies) => {
+            this.store.dispatch(getMovies({ movies: movies }));
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
+      } else {
+        this.router.navigate(['/login']);
+      }
     }
   }
 }

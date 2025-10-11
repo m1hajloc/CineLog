@@ -75,7 +75,7 @@ export class UserService {
       where: { email: email },
     });
     if (!user)
-      throw new BadRequestException('User with that email doesnt exist');
+      throw new BadRequestException("User with that email doesn't exist");
     else {
       return user;
     }

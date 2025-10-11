@@ -23,7 +23,7 @@ export class AuthService {
     const existing = await this.userService.findOneByEmail(loginData.email);
 
     if (!existing)
-      throw new BadRequestException("User with that email doesn't exist!");
+      throw new BadRequestException('User with that email does not exist!');
 
     const isMatching = await bcrypt.compare(
       loginData.password,
