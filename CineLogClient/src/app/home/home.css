@@ -67,12 +67,14 @@
 
   .movie-section {
     padding: 3rem;
+
     h3 {
       margin-bottom: 1.5rem;
       font-weight: 600;
     }
     .movie-list {
       display: grid;
+      color: #0d0d0d;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 1.5rem;
     }

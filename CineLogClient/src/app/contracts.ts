@@ -70,3 +70,7 @@ export interface isInWatchlistDTO {
   inWatchlist: boolean;
   watchlistItemId?: number;
 }
+export interface Filter {
+  genreId: number;
+  minRating: number;
+}

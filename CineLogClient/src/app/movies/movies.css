@@ -1,6 +1,0 @@
-.movie-list {
-  display: flex;
-  flex-wrap: wrap; /* allows wrapping to next row */
-  justify-content: flex-start;
-  gap: 15px; /* spacing between cards */
-}
