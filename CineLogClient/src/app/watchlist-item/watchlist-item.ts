@@ -40,6 +40,7 @@ export class WatchlistItemComponent implements OnInit {
       this.comment = this.watchlistItemAndReview.review.comment;
       this.rating = this.watchlistItemAndReview.review.rating;
     }
+    console.log(this.watchlistItemAndReview);
   }
   @Input({ required: true })
   watchlistItemAndReview!: WatchlistItemAndReview;
@@ -75,7 +76,7 @@ export class WatchlistItemComponent implements OnInit {
     // TODO: call service to save status
     this.statusModal.hide();
   }
-   async remove() {
+  async remove() {
     await this.service.deleteFromWatchlist(
       this.watchlistItemAndReview.watchlistItem.watchlistItemId
     );
@@ -83,7 +84,7 @@ export class WatchlistItemComponent implements OnInit {
       this.watchlistItemAndReview.watchlistItem.watchlistItemId
     );
   }
-  
+
   openCommentModal() {
     const modalElement = document.getElementById(
       `commentModal-${this.watchlistItemAndReview.watchlistItem.watchlistItemId}`
@@ -92,7 +93,7 @@ export class WatchlistItemComponent implements OnInit {
     this.commentModal = new bootstrap.Modal(modalElement);
     this.commentModal.show();
   }
- 
+
   leaveRating() {
     var review: Review = {
       comment: this.comment,

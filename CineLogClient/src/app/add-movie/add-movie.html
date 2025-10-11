@@ -1,0 +1,107 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-lg rounded-4 border-0">
+        <div class="card-body p-4">
+          <h2 class="text-center mb-4">Create Movie</h2>
+
+          <form [formGroup]="addMovieForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input
+                type="text"
+                formControlName="title"
+                id="title"
+                class="form-control"
+                placeholder="Enter movie title"
+                [ngClass]="{
+                  invalid:
+                    addMovieForm.controls.title.invalid &&
+                    addMovieForm.controls.title.touched
+                }"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="overview" class="form-label mt-3"> Overview </label>
+              <textarea
+                class="form-control"
+                formControlName="overview"
+                rows="4"
+                [ngClass]="{
+                  invalid:
+                    addMovieForm.controls.overview.invalid &&
+                    addMovieForm.controls.overview.touched
+                }"
+                placeholder="Write movie overview..."
+                required
+              ></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="releaseDate" class="form-label">Release Date</label>
+              <input
+                type="date"
+                formControlName="releaseDate"
+                id="releaseDate"
+                class="form-control"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="poster" class="form-label">Poster</label>
+              <input
+                type="file"
+                id="poster"
+                class="form-control"
+                (change)="onFileSelected($event)"
+              />
+            </div>
+
+            <div *ngIf="preview" class="mt-3 text-center">
+              <img
+                [src]="preview"
+                alt="Movie Poster Preview"
+                class="img-fluid rounded shadow-sm"
+                width="200"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Genres</label>
+              <div class="row">
+                <div class="col-6 col-md-4" *ngFor="let genre of genreOptions">
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      [id]="'genre_' + genre.genreId"
+                      [value]="genre.genreId"
+                      (change)="onGenreChange($event, genre.genreId)"
+                    />
+                    <label
+                      class="form-check-label"
+                      [for]="'genre_' + genre.genreId"
+                    >
+                      {{ genre.name }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <button
+              type="submit"
+              [disabled]="addMovieForm.invalid"
+              class="btn btn-primary w-100"
+            >
+              Create
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

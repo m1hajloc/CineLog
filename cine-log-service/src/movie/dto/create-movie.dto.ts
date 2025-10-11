@@ -1,6 +1,7 @@
 export class CreateMovieDto {
   title: string;
-  releaseDate: Date;
-  overview: string;
+  releaseDate?: string;
+  overview?: string;
   genres: number[];
+  poster?: string;
 }

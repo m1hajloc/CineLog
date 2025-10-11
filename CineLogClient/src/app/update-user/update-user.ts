@@ -70,7 +70,7 @@ export class UpdateUser {
         const token = await firstValueFrom(
           this.store.select(selectToken).pipe(take(1))
         );
-        // localStorage.setItem('auth', JSON.stringify({ token, data }));
+        localStorage.setItem('auth', JSON.stringify({ token, user: data }));
         this.router.navigate(['/home']);
       },
       error: (err) => {

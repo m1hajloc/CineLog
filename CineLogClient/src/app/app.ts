@@ -5,13 +5,13 @@ import { loginSuccess } from './auth/auth.action';
 import { MovieService } from './services/movie.service';
 import { error } from 'console';
 import { getMovies, getStatus } from './movies/movies.action';
-import { LookupService } from './lookup/lookup-service';
 import { Navbar } from '../navbar/navbar';
 import { Router } from '@angular/router';
 import { AuthService } from './auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { selectIsAdmin } from './auth/auth.selector';
 import { User } from './auth/auth.state';
+import { LookupService } from './services/lookup.service';
 
 @Component({
   selector: 'app-root',

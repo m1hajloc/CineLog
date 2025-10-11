@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { Movie, Status } from '../contracts';
 
 // feature selector
 export const selectMoviesState = createFeatureSelector<Movie[]>('movies');

@@ -1,5 +1,9 @@
 <div class="movie-card" (click)="openDetails()">
-  <img [src]="'assets/default-poster.jpg'" [alt]="movie.title" class="poster" />
+  <img
+    [src]="movie.poster ? movie.poster : 'assets/default-poster.jpg'"
+    [alt]="movie.title"
+    class="poster"
+  />
 
   <div class="details">
     <h3 class="title">
@@ -9,7 +13,7 @@
       </span>
     </h3>
     @if(!movie.average || movie.average == 0){
-    <p class="rating">⭐  N/A / 10</p>
+    <p class="rating">⭐ N/A / 10</p>
     } @else{
     <p class="rating">⭐ {{ movie.average }} / 10</p>
     }

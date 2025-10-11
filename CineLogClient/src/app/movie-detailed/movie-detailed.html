@@ -1,7 +1,7 @@
 <div class="movie-detail">
   <div class="header">
     <img
-      [src]="'assets/default-poster.jpg'"
+      [src]="movie?.poster ? movie?.poster : 'assets/default-poster.jpg'"
       [alt]="'assets/default-poster.jpg'"
     />
     <div class="info">
@@ -24,9 +24,23 @@
     </div>
   </div>
 
-  <div class="actions">
-    <div class="reviews-placeholder">
-      Reviews are not available yet. Coming soon!
-    </div>
+  <div class="reviews-section">
+    <h4 class="fw-semibold">Reviews</h4>
+
+    <ng-container *ngIf="(movie?.reviews?.length ?? 0) > 0; else noReviews">
+      <div *ngFor="let review of movie.reviews" class="review-card">
+        <div class="mt-2 p-3 bg-light rounded">
+          <p class="fw-bold mb-1">{{ review.user?.username ?? "Anonymous" }}</p>
+          <span class="badge bg-warning text-dark"
+            >⭐ {{ review.rating }} / 10</span
+          >
+          <p class="text-muted mt-2">{{ review.comment }}</p>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #noReviews>
+      <div class="no-reviews">No reviews yet. Be the first to review!</div>
+    </ng-template>
   </div>
 </div>

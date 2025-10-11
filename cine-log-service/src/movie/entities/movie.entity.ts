@@ -1,35 +1,44 @@
-import { Genre } from "src/genre/entities/genre.entity";
-import { Review } from "src/review/entities/review.entity";
-import { WatchlistItem } from "src/watchlist-item/entities/watchlist-item.entity";
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Genre } from 'src/genre/entities/genre.entity';
+import { Review } from 'src/review/entities/review.entity';
+import { WatchlistItem } from 'src/watchlist-item/entities/watchlist-item.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Movie {
-    @PrimaryGeneratedColumn()
-    movieId: number;
+  @PrimaryGeneratedColumn()
+  movieId: number;
 
-    @Column({unique: true})
-    title: string;
+  @Column({ unique: true })
+  title: string;
 
-    @Column()
-    releaseDate: Date;
+  @Column({ type: 'date', nullable: true })
+  releaseDate: Date;
 
-    @Column('decimal', { precision: 3, scale: 1, nullable: true } ) 
-    average?: number;
-    
-    @Column({nullable:true})
-    overview?: string;
+  @Column('decimal', { precision: 3, scale: 1, nullable: true })
+  average?: number;
 
-    @OneToMany(()=>Review,(review)=>review.movie, {nullable:true})
-        reviews?: Review[];
+  @Column({ nullable: true })
+  overview?: string;
 
-    @OneToMany(()=>WatchlistItem,(watchlistItem)=>watchlistItem.movie, {nullable:true})
-        watchlistItems?: WatchlistItem[];
+  @Column({ type: 'text', nullable: true })
+  poster?: string;
 
-    @ManyToMany(()=>Genre,(genre)=>genre.movies)
-    @JoinTable()
-        genres?: Genre[];
-    
-    // @Column()
-    // picture: string;
+  @OneToMany(() => Review, (review) => review.movie, { nullable: true })
+  reviews?: Review[];
+
+  @OneToMany(() => WatchlistItem, (watchlistItem) => watchlistItem.movie, {
+    nullable: true,
+  })
+  watchlistItems?: WatchlistItem[];
+
+  @ManyToMany(() => Genre, (genre) => genre.movies)
+  @JoinTable()
+  genres?: Genre[];
 }

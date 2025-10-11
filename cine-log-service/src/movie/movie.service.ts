@@ -24,10 +24,12 @@ export class MovieService {
     );
     let movie = {
       title: createMovieDto.title,
-      releaseDate: createMovieDto.releaseDate,
-      overview: createMovieDto.overview ?? null,
+      releaseDate: createMovieDto.releaseDate ?? undefined,
+      overview: createMovieDto.overview ?? undefined,
       genres: movieGenres,
+      poster: createMovieDto.poster ?? undefined,
     };
+    console.log(movie);
     const createdMovie = this.movieRepository.create(movie);
     await this.movieRepository.save(createdMovie);
     return createdMovie;

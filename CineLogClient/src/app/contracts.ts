@@ -1,3 +1,5 @@
+import { User } from './auth/auth.state';
+
 export interface registerDto {
   username: string;
   password: string;
@@ -25,6 +27,15 @@ export interface Movie {
   average?: number;
   reviews?: Review[];
   genres?: Genre[];
+  poster?: string;
+}
+
+export interface CreateMovie {
+  title: string;
+  overview?: string;
+  releaseDate?: string;
+  genres?: number[];
+  poster?: string;
 }
 
 export interface Genre {
@@ -42,6 +53,7 @@ export interface Review {
   rating: number;
   comment: string;
   movie?: Movie;
+  user?: User;
 }
 
 export interface WatchlistItem {

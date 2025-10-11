@@ -3,7 +3,7 @@ import { Review, Status } from '../contracts';
 import { ReviewService } from '../services/review.service';
 import { ReviewItem } from '../review-item/review-item';
 import { CommonModule } from '@angular/common';
-import { LookupService } from '../lookup/lookup-service';
+import { LookupService } from '../services/lookup.service';
 
 @Component({
   selector: 'app-reviews',
