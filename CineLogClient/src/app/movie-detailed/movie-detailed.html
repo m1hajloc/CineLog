@@ -26,7 +26,6 @@
 
   <div class="reviews-section">
     <h4 class="fw-semibold">Reviews</h4>
-
     <ng-container *ngIf="(movie?.reviews?.length ?? 0) > 0; else noReviews">
       <div *ngFor="let review of movie.reviews" class="review-card">
         <div class="mt-2 p-3 bg-light rounded">

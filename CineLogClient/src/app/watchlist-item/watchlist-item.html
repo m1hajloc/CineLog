@@ -1,8 +1,6 @@
 <div class="container mt-5">
   <div class="row bg-light rounded p-3 mb-3 align-items-center">
-    <!-- Info part: image + data -->
     <div class="col-10 row align-items-center">
-      <!-- Image -->
       <div class="col-2">
         <img
           [src]="
@@ -15,7 +13,6 @@
         />
       </div>
 
-      <!-- Movie data -->
       <div class="col-10">
         <p class="fw-bold mb-1">
           {{ watchlistItemAndReview.watchlistItem.movie.title }} ({{
@@ -37,7 +34,6 @@
       </div>
     </div>
 
-    <!-- Actions part: buttons -->
     <div class="col-2 d-flex flex-column gap-2">
       <button class="btn btn-secondary w-100" (click)="openStatusModal()">
         Change Status

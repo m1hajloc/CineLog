@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../services/auth.service';
 import {
   FormControl,
   FormGroup,
@@ -21,6 +21,7 @@ import { firstValueFrom, take } from 'rxjs';
   styleUrl: './update-user.css',
 })
 export class UpdateUser {
+
   constructor(
     private service: AuthService,
     private router: Router,
@@ -60,7 +61,6 @@ export class UpdateUser {
   public async onSubmit() {
     this.service.updateUser(this.getFormValue()).subscribe({
       next: async (data) => {
-        console.log(data);
         this.store.dispatch(updateUser({ user: data }));
         const token = await firstValueFrom(
           this.store.select(selectToken).pipe(take(1))

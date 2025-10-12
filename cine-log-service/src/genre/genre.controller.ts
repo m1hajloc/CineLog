@@ -29,11 +29,6 @@ export class GenreController {
     return this.genreService.findOne(+id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateGenreDto: UpdateGenreDto) {
-  //   return this.genreService.update(+id, updateGenreDto);
-  // }
-
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.genreService.remove(+id);

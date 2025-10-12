@@ -9,8 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
-import { CreateMovieDto } from './dto/create-movie.dto';
-import { UpdateMovieDto } from './dto/update-movie.dto';
+import { UpsertMovieDto } from './dto/upsert-movie.dto';
 import { AdminGuard } from 'src/auth/decorator/admin.decorator';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 
@@ -21,16 +20,15 @@ export class MovieController {
 
   @Post()
   @UseGuards(AdminGuard)
-  create(@Body() createMovieDto: CreateMovieDto) {
+  create(@Body() createMovieDto: UpsertMovieDto) {
     return this.movieService.create(createMovieDto);
   }
 
   @Get('bestRated')
   getBestRated() {
-    console.log('gotIntoFunction');
     return this.movieService.getBestRated();
   }
-  
+
   @Get()
   findAll() {
     return this.movieService.findAll();
@@ -48,7 +46,7 @@ export class MovieController {
 
   @Put(':id')
   @UseGuards(AdminGuard)
-  update(@Param('id') id: string, @Body() updateMovieDto: UpdateMovieDto) {
+  update(@Param('id') id: string, @Body() updateMovieDto: UpsertMovieDto) {
     return this.movieService.update(+id, updateMovieDto);
   }
 

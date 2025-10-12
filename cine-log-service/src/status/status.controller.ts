@@ -29,11 +29,6 @@ export class StatusController {
     return this.statusService.findOne(+id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateGenreDto: UpdateGenreDto) {
-  //   return this.genreService.update(+id, updateGenreDto);
-  // }
-
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.statusService.remove(+id);

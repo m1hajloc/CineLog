@@ -1,4 +1,4 @@
-export class CreateMovieDto {
+export class UpsertMovieDto {
   title: string;
   releaseDate?: string;
   overview?: string;

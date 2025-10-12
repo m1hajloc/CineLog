@@ -14,13 +14,16 @@ import { Router } from '@angular/router';
   styleUrl: './home.css',
 })
 export class Home implements OnInit {
+
   bestRatedMovies!: Movie[];
   watchlistMovies!: Movie[];
+  
   constructor(
     private movieService: MovieService,
     private watchlistService: Watchlist,
     private router: Router,
   ) {}
+
   ngOnInit(): void {
     forkJoin({
       bestRatedData: this.movieService.getBestRated(),
@@ -30,6 +33,7 @@ export class Home implements OnInit {
       this.watchlistMovies = watchlistData;
     });
   }
+  
   goToMovie() {
     this.router.navigate(['/movies']);
   }

@@ -6,7 +6,6 @@
           <h2 class="text-center mb-4">Update Account</h2>
 
           <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
-            <!-- Username -->
             <div class="mb-3">
               <label for="username" class="form-label">Username</label>
               <input
@@ -24,7 +23,6 @@
               />
             </div>
 
-            <!-- Email -->
             <div class="mb-3">
               <label for="email" class="form-label">Email address</label>
               <input
@@ -58,7 +56,6 @@
               />
             </div>
 
-            <!-- Password -->
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
               <input
@@ -75,7 +72,6 @@
               />
             </div>
 
-            <!-- Confirm Password -->
             <div class="mb-3">
               <label for="confirmPassword" class="form-label"
                 >Confirm Password</label
@@ -94,7 +90,6 @@
               />
             </div>
 
-            <!-- Submit -->
             <button
               type="submit"
               [disabled]="updateForm.invalid"

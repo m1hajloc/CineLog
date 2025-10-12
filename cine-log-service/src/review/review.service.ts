@@ -10,7 +10,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Review } from './entities/review.entity';
 import { MovieService } from 'src/movie/movie.service';
-import { Movie } from 'src/movie/entities/movie.entity';
 
 @Injectable()
 export class ReviewService {
@@ -101,7 +100,6 @@ export class ReviewService {
 
   async remove(id: number) {
     const existing = await this.findOneById(id);
-    console.log(existing);
     if (!existing)
       throw new BadRequestException('Review with that id does not exist!');
     else await this.reviewRepository.delete(id);

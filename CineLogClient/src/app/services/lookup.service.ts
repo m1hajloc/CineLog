@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { firstValueFrom, Observable, switchMap, take } from 'rxjs';
+import { firstValueFrom, take } from 'rxjs';
 import { selectToken } from '../auth/auth.selector';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Genre, Status } from '../contracts';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LookupService {
-  private readonly apiUrl = 'http://localhost:3000/';
+  private readonly apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private store: Store) {}
 

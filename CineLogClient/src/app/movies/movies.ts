@@ -20,7 +20,6 @@ export class Movies implements OnInit {
   public movies: Movie[] = [];
   public filter: Filter = { genreId: 0, minRating: 0 };
   public genreOptions: Genre[] = [];
-
   public filteredMovies: Movie[] = [];
 
   async ngOnInit(): Promise<void> {
@@ -33,15 +32,11 @@ export class Movies implements OnInit {
 
   applyFilter() {
     if (!this.filter) return;
-    console.log(this.movies);
-    console.log(this.filter);
     this.filteredMovies = this.movies.filter((m) => {
-      // Filter by genre
       const matchesGenre =
         !this.filter.genreId ||
         m.genres?.some((x) => x.genreId === this.filter.genreId);
 
-      // Filter by rating (treat null as 0)
       const movieRating = m.average ?? 0;
       const matchesRating = movieRating >= this.filter.minRating;
 

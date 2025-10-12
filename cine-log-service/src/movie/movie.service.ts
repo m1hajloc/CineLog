@@ -3,8 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateMovieDto } from './dto/create-movie.dto';
-import { UpdateMovieDto } from './dto/update-movie.dto';
+import { UpsertMovieDto } from './dto/upsert-movie.dto';
 import { Movie } from './entities/movie.entity';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -18,10 +17,12 @@ export class MovieService {
     private genreService: GenreService,
   ) {}
 
-  async create(createMovieDto: CreateMovieDto) {
+  async create(createMovieDto: UpsertMovieDto) {
+
     let movieGenres = await this.genreService.findGenresByIds(
       createMovieDto.genres,
     );
+
     let movie = {
       title: createMovieDto.title,
       releaseDate: createMovieDto.releaseDate ?? undefined,
@@ -29,7 +30,7 @@ export class MovieService {
       genres: movieGenres,
       poster: createMovieDto.poster ?? undefined,
     };
-    console.log(movie);
+    
     const createdMovie = this.movieRepository.create(movie);
     await this.movieRepository.save(createdMovie);
     return createdMovie;
@@ -71,7 +72,7 @@ export class MovieService {
     });
   }
 
-  async update(id: number, updateMovieDto: UpdateMovieDto) {
+  async update(id: number, updateMovieDto: UpsertMovieDto) {
     const movie = await this.movieRepository.findOne({
       where: { movieId: id },
       relations: ['genres'],

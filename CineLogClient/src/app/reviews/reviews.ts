@@ -26,7 +26,6 @@ export class Reviews implements OnInit {
   }
 
   onItemRemoved(id: number) {
-    console.log('1', id);
     this.reviews = this.reviews.filter((x) => x.reviewId !== id);
   }
 }

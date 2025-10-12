@@ -11,7 +11,6 @@ import { User } from 'src/user/entities/user.entity';
 import { MovieService } from 'src/movie/movie.service';
 import { StatusService } from 'src/status/status.service';
 import { ReviewService } from 'src/review/review.service';
-import { watch } from 'fs';
 
 @Injectable()
 export class WatchlistItemService {

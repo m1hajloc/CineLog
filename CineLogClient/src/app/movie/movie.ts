@@ -22,7 +22,6 @@ export class MovieComponent implements OnInit {
   }
 
   openDetails(): void {
-    // Navigate to movie detail page
     this.router.navigate(['/movie', this.movie.movieId]);
   }
 }

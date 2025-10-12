@@ -38,7 +38,6 @@ export class WatchlistItemComponent implements OnInit {
       this.comment = this.watchlistItemAndReview.review.comment;
       this.rating = this.watchlistItemAndReview.review.rating;
     }
-    console.log(this.watchlistItemAndReview);
   }
   @Input({ required: true })
   watchlistItemAndReview!: WatchlistItemAndReview;
@@ -71,9 +70,9 @@ export class WatchlistItemComponent implements OnInit {
         (status) =>
           (this.watchlistItemAndReview.watchlistItem.status = status.status)
       );
-    // TODO: call service to save status
     this.statusModal.hide();
   }
+  
   async remove() {
     await this.service.deleteFromWatchlist(
       this.watchlistItemAndReview.watchlistItem.watchlistItemId

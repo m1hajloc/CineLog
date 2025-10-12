@@ -12,6 +12,7 @@
         ({{ movie.releaseDate | date : "yyyy" }})
       </span>
     </h3>
+
     @if(!movie.average || movie.average == 0){
     <p class="rating">⭐ N/A / 10</p>
     } @else{
@@ -19,7 +20,6 @@
     }
 
     <p class="genres" *ngIf="genreNames">{{ genreNames }}</p>
-
     <p class="overview" *ngIf="movie.overview">
       {{ movie.overview }}
     </p>

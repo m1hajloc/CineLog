@@ -19,5 +19,5 @@ export const appRoutes: Routes = [
   { path: 'register', component: Register },
   { path: 'updateUser', component: UpdateUser },
   { path: 'login', component: Login },
-  { path: '**', redirectTo: '' }, // catch-all
+  { path: '**', redirectTo: '' },
 ];

@@ -16,6 +16,7 @@ export const authReducer = createReducer(
     loading: true,
     error: null,
   })),
+
   on(loginSuccess, (state, { token, user }) => ({
     ...state,
     user,
@@ -23,15 +24,18 @@ export const authReducer = createReducer(
     loading: false,
     error: null,
   })),
+  
   on(updateUser, (state, { user }) => ({
     ...state,
     user,
   })),
+  
   on(loginFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
+  
   on(logout, state => ({
     ...state,
     user: null,

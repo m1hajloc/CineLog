@@ -9,7 +9,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { registerDto } from '../contracts';
 
@@ -48,6 +48,7 @@ export class Register {
     },
     { validators: this.passwordMatchValidator }
   );
+
   private getFormValue(): registerDto {
     return {
       email: this.registerForm.controls.email.value ?? '',
@@ -60,7 +61,6 @@ export class Register {
   public async onSubmit() {
     this.service.register(this.getFormValue()).subscribe({
       next: (data) => {
-        console.log('Registration successful:', data);
         this.router.navigate(['/login']);
       },
       error: (err) => {

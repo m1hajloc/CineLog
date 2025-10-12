@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { firstValueFrom, Observable, switchMap, take } from 'rxjs';
+import { Observable, switchMap, take } from 'rxjs';
 import { selectToken } from '../auth/auth.selector';
 import {
   CreateMovie,
@@ -9,18 +9,19 @@ import {
   WatchlistItem,
   WatchlistItemAndReview,
 } from '../contracts';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MovieService {
-  private readonly apiUrl = 'http://localhost:3000/';
+  private readonly apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private store: Store) {}
 
   getMovies(): Observable<Movie[]> {
     return this.store.select(selectToken).pipe(
-      take(1), // take the latest token once
+      take(1),
       switchMap((token) => {
         let headers = new HttpHeaders();
         if (token) {
@@ -46,7 +47,7 @@ export class MovieService {
 
   getBestRated(): Observable<Movie[]> {
     return this.store.select(selectToken).pipe(
-      take(1), // take the latest token once
+      take(1),
       switchMap((token) => {
         let headers = new HttpHeaders();
         if (token) {
@@ -61,7 +62,7 @@ export class MovieService {
 
   getMovie(id: number): Observable<Movie> {
     return this.store.select(selectToken).pipe(
-      take(1), // take the latest token once
+      take(1),
       switchMap((token) => {
         let headers = new HttpHeaders();
         if (token) {
@@ -74,7 +75,7 @@ export class MovieService {
 
   addMovieToWatchlist(id: number): Observable<WatchlistItem> {
     return this.store.select(selectToken).pipe(
-      take(1), // take the latest token once
+      take(1),
       switchMap((token) => {
         let headers = new HttpHeaders();
         if (token) {
@@ -91,7 +92,7 @@ export class MovieService {
 
   getWatchlist(): Observable<WatchlistItemAndReview[]> {
     return this.store.select(selectToken).pipe(
-      take(1), // take the latest token once
+      take(1),
       switchMap((token) => {
         let headers = new HttpHeaders();
         if (token) {
@@ -115,7 +116,7 @@ export class MovieService {
     toRemove: number[]
   ): Observable<WatchlistItem[]> {
     return this.store.select(selectToken).pipe(
-      take(1), // take the latest token once
+      take(1),
       switchMap((token) => {
         let headers = new HttpHeaders();
         if (token) {

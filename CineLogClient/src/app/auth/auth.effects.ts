@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { AuthService } from './auth.service';
+import { AuthService } from '../services/auth.service';
 import { login, loginSuccess, loginFailure } from './auth.action';
 import { map, switchMap, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -37,13 +37,4 @@ export class AuthEffects {
       )
     )
   );
-
-  // loginRedirect$ = createEffect(
-  //   () =>
-  //     this.actions$.pipe(
-  //       ofType(loginSuccess),
-  //       tap(() => this.router.navigate(['/']))
-  //     ),
-  //   { dispatch: false }
-  // );
 }

@@ -53,10 +53,8 @@ export class AddMovie implements OnInit {
   }
 
   public onSubmit() {
-    console.log(this.getFormValue());
     this.movieService.createMovie(this.getFormValue()).subscribe({
       next: async (data) => {
-        console.log(data);
         this.store.dispatch(newMovie({ movie: data }));
         this.router.navigate(['/home']);
       },

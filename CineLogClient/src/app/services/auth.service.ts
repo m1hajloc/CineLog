@@ -5,13 +5,14 @@ import { Store } from '@ngrx/store';
 import { Observable, switchMap, take } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 
-import { logout } from './auth.action';
+import { logout } from '../auth/auth.action';
 import { loginDto, registerDto } from '../contracts';
-import { User } from './auth.state';
-import { selectToken } from './auth.selector';
+import { User } from '../auth/auth.state';
+import { selectToken } from '../auth/auth.selector';
+import { environment } from '../../environments/environment';
 
 interface JwtPayload {
-  sub: string; // user id
+  sub: string;
   username: string;
   email: string;
   admin?: boolean;
@@ -22,7 +23,8 @@ interface JwtPayload {
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly apiUrl = 'http://localhost:3000/'; // 👈 change this
+  
+  private readonly apiUrl = environment.apiUrl;
   public isLogedIn: boolean = false;
   public isAdmin: boolean = false;
 
@@ -76,19 +78,8 @@ export class AuthService {
         if (token) {
           headers = headers.set('Authorization', `Bearer ${token}`);
         }
-        return this.http.get<User>(
-          `${this.apiUrl}user/me`,
-          { headers } // options
-        );
+        return this.http.get<User>(`${this.apiUrl}user/me`, { headers });
       })
     );
   }
-
-  // getToken(): string | null {
-  //   return localStorage.getItem('token');
-  // }
-
-  // isLoggedIn(): boolean {
-  //   return !!this.getToken();
-  // }
 }

@@ -1,7 +1,5 @@
 <div class="container my-3">
-  <!-- Filters -->
   <div class="row g-4 mb-4">
-    <!-- Genre dropdown -->
     <div class="col-sm-6 col-md-6 col-lg-6">
       <label for="genreSelect" class="form-label">Genre</label>
       <select
@@ -17,7 +15,6 @@
       </select>
     </div>
 
-    <!-- Rating input -->
     <div class="col-sm-6 col-md-6 col-lg-6">
       <label for="ratingInput" class="form-label">Minimum Rating</label>
       <input
@@ -33,16 +30,13 @@
     </div>
   </div>
 
-  <!-- Divider -->
   <hr class="my-4" />
 
-  <!-- Results header -->
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="mb-0">Results</h5>
     <span class="text-muted">{{ filteredMovies.length }} movies found</span>
   </div>
 
-  <!-- Movies -->
   <div class="movie-list row g-4">
     <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let m of filteredMovies">
       <app-movie [movie]="m"></app-movie>

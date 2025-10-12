@@ -4,13 +4,14 @@ import { Store } from '@ngrx/store';
 import { firstValueFrom, Observable, switchMap, take } from 'rxjs';
 import { selectToken } from '../auth/auth.selector';
 import { Review } from '../contracts';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReviewService {
   constructor(private store: Store, private http: HttpClient) {}
-  private readonly apiUrl = 'http://localhost:3000/';
+  private readonly apiUrl = environment.apiUrl;
 
   leaveRating(review: Review): Observable<number> {
     return this.store.select(selectToken).pipe(
@@ -20,11 +21,9 @@ export class ReviewService {
         if (token) {
           headers = headers.set('Authorization', `Bearer ${token}`);
         }
-        return this.http.put<number>(
-          `${this.apiUrl}review`,
-          review, // body
-          { headers } // options
-        );
+        return this.http.put<number>(`${this.apiUrl}review`, review, {
+          headers,
+        });
       })
     );
   }
@@ -37,10 +36,7 @@ export class ReviewService {
         if (token) {
           headers = headers.set('Authorization', `Bearer ${token}`);
         }
-        return this.http.get<Review[]>(
-          `${this.apiUrl}review`,
-          { headers } // options
-        );
+        return this.http.get<Review[]>(`${this.apiUrl}review`, { headers });
       })
     );
   }

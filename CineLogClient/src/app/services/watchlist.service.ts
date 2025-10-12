@@ -4,12 +4,13 @@ import { isInWatchlistDTO, Movie, WatchlistItem } from '../contracts';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { selectToken } from '../auth/auth.selector';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Watchlist {
-  private readonly apiUrl = 'http://localhost:3000/';
+  private readonly apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private store: Store) {}
 
@@ -26,8 +27,8 @@ export class Watchlist {
         }
         return this.http.put<WatchlistItem>(
           `${this.apiUrl}watchlist-item/${watchlistItemId}/${statusId}`,
-          null, // body
-          { headers } // options
+          null,
+          { headers }
         );
       })
     );
@@ -69,7 +70,7 @@ export class Watchlist {
 
   getWatchlistBestRated(): Observable<Movie[]> {
     return this.store.select(selectToken).pipe(
-      take(1), // take the latest token once
+      take(1),
       switchMap((token) => {
         let headers = new HttpHeaders();
         if (token) {

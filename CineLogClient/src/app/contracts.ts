@@ -74,3 +74,5 @@ export interface Filter {
   genreId: number;
   minRating: number;
 }
+
+export let apiUrl:string='http://localhost:3000/'

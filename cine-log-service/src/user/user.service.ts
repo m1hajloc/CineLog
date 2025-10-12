@@ -10,14 +10,11 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { AuthService } from 'src/auth/auth.service';
-import { LoginUserDto } from 'src/auth/dto/login-user.dto';
-import { emit } from 'process';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
-    private authService: AuthService,
   ) {}
 
   async register(registerData: RegisterUserDto) {
@@ -124,7 +121,6 @@ export class UserService {
     user.email = updateUserDto.email;
     user.username = updateUserDto.username;
 
-    console.log(user);
     if (updateUserDto.password) {
       const hashedPassword = await bcrypt.hash(updateUserDto.password, 10);
       user.password = hashedPassword;

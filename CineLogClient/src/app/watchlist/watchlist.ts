@@ -16,7 +16,6 @@ export class Watchlist implements OnInit {
   public watchlist: WatchlistItemAndReview[] = [];
   constructor(
     private service: MovieService,
-    // private store: Store,
     private lookupService: LookupService
   ) {}
   protected statusOptions!: Status[];
@@ -26,7 +25,6 @@ export class Watchlist implements OnInit {
     this.service.getWatchlist().subscribe({
       next: (items) => {
         this.watchlist = items;
-        console.log(items);
       },
       error: (err) => console.error('Failed to load watchlist', err),
     });
@@ -37,19 +35,4 @@ export class Watchlist implements OnInit {
       (x) => x.watchlistItem.watchlistItemId !== id
     );
   }
-
-  // saveChanges() {
-  //   const updates = this.watchlist.map((item) => ({
-  //     movieId: item.movie.movieId,
-  //     statusId: item.statusId,
-  //   }));
-
-  //   this.service.saveWatchlistChanges(updates, this.toRemove).subscribe({
-  //     next: () => {
-  //       console.log('Watchlist saved successfully');
-  //       this.toRemove = [];
-  //     },
-  //     error: (err: any) => console.error('Failed to save watchlist', err),
-  //   });
-  // }
 }

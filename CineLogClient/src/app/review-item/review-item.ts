@@ -23,13 +23,11 @@ export class ReviewItem {
 
   @Input({ required: true })
   public statusOptions!: Status[];
-
   reviewModal: any;
 
   async remove() {
     if (this.review.reviewId) {
       await this.service.deleteReview(this.review.reviewId);
-      console.log('1', this.review.reviewId);
       this.removed.emit(this.review.reviewId);
     }
   }

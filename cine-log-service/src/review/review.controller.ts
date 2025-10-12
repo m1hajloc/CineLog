@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
   Patch,
   Param,
@@ -48,7 +47,6 @@ export class ReviewController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    console.log(id);
     return this.reviewService.remove(+id);
   }
 }
