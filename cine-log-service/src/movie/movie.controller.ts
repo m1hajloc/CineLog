@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { UpsertMovieDto } from './dto/upsert-movie.dto';
-import { AdminGuard } from 'src/auth/decorator/admin.decorator';
+import { AdminGuard } from 'src/auth/guard/admin.guard';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 
 @Controller('movie')

@@ -8,7 +8,7 @@ import { UserService } from 'src/user/user.service';
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
     private userService: UserService,
-    private configService: ConfigService,
+    configService: ConfigService,
   ) {
     const jwtSecret = configService.get<string>('JWT_SECRET');
 
