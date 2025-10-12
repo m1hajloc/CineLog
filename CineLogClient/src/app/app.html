@@ -1,5 +1,8 @@
 <div class="app-class">
-  <app-navbar *ngIf="authService.isLogedIn" [isAdmin]="user.admin"></app-navbar>
+  <app-navbar
+    *ngIf="authService.isLogedIn"
+    [isAdmin]="authService.isAdmin"
+  ></app-navbar>
   <main class="container my-5">
     <router-outlet></router-outlet>
   </main>

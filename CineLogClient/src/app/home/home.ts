@@ -6,6 +6,7 @@ import { Movie } from '../contracts';
 import { MovieComponent } from '../movie/movie';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -14,26 +15,28 @@ import { Router } from '@angular/router';
   styleUrl: './home.css',
 })
 export class Home implements OnInit {
-
   bestRatedMovies!: Movie[];
   watchlistMovies!: Movie[];
-  
+
   constructor(
     private movieService: MovieService,
     private watchlistService: Watchlist,
-    private router: Router,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    forkJoin({
-      bestRatedData: this.movieService.getBestRated(),
-      watchlistData: this.watchlistService.getWatchlistBestRated(),
-    }).subscribe(({ bestRatedData, watchlistData }) => {
-      this.bestRatedMovies = bestRatedData;
-      this.watchlistMovies = watchlistData;
-    });
+    if (this.authService.isLogedIn) {
+      forkJoin({
+        bestRatedData: this.movieService.getBestRated(),
+        watchlistData: this.watchlistService.getWatchlistBestRated(),
+      }).subscribe(({ bestRatedData, watchlistData }) => {
+        this.bestRatedMovies = bestRatedData;
+        this.watchlistMovies = watchlistData;
+      });
+    }
   }
-  
+
   goToMovie() {
     this.router.navigate(['/movies']);
   }

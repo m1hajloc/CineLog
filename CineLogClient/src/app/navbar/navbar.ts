@@ -11,6 +11,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class Navbar {
   constructor(private authService: AuthService) {}
+  
   @Input()
   isAdmin: boolean = false;
 
