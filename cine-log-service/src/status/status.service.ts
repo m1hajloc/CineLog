@@ -28,6 +28,10 @@ export class StatusService {
     return await this.statusRepository.findOne({ where: { statusId: id } });
   }
 
+  async findOneByName(statusName: string) {
+    return await this.statusRepository.findOne({ where: { name: statusName } });
+  }
+
   async remove(id: number) {
     const existing = await this.findOne(id);
     if (!existing)

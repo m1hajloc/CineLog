@@ -26,7 +26,7 @@ export class WatchlistItemService {
     let existingMovie = await this.movieService.findOneById(movieId);
     if (!existingMovie) throw new BadRequestException('Movie doesnt exist!');
 
-    let initialStatus = await this.statusService.findOne(1);
+    let initialStatus = await this.statusService.findOneByName('Plan to watch');
 
     if (!initialStatus) throw new InternalServerErrorException('Bad request!');
     let watchlistItem = {

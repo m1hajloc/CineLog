@@ -42,7 +42,7 @@ export class ReviewService {
       await this.findByMovie(review.movie.movieId),
     );
 
-    return movie.average;
+    return await this.movieService.findOneById(movie.movieId);
   }
 
   async findAll() {

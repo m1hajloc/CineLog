@@ -1,19 +1,11 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {
-  Review,
-  Status,
-  WatchlistItemAndReview,
-} from '../contracts';
+import { Review, Status, WatchlistItemAndReview } from '../contracts';
 import { Watchlist } from '../services/watchlist.service';
 import { ReviewService } from '../services/review.service';
+import { upsertReviewSuccess } from '../movies/movies.action';
+import { Store } from '@ngrx/store';
 
 declare var bootstrap: any;
 
@@ -31,7 +23,8 @@ export class WatchlistItemComponent implements OnInit {
 
   constructor(
     private service: Watchlist,
-    private reviewService: ReviewService
+    private reviewService: ReviewService,
+    private store: Store
   ) {}
   ngOnInit(): void {
     if (this.watchlistItemAndReview.review) {
@@ -72,7 +65,7 @@ export class WatchlistItemComponent implements OnInit {
       );
     this.statusModal.hide();
   }
-  
+
   async remove() {
     await this.service.deleteFromWatchlist(
       this.watchlistItemAndReview.watchlistItem.watchlistItemId
@@ -97,8 +90,13 @@ export class WatchlistItemComponent implements OnInit {
       rating: this.rating,
       movie: this.watchlistItemAndReview.watchlistItem.movie,
     };
-    this.reviewService.leaveRating(review).subscribe((newAverage) => {
-      this.watchlistItemAndReview.watchlistItem.movie.average = newAverage;
+    this.reviewService.leaveRating(review).subscribe((updatedMovie) => {
+      this.watchlistItemAndReview.watchlistItem.movie = updatedMovie;
+      this.store.dispatch(
+        upsertReviewSuccess({
+          updatedMovie: updatedMovie,
+        })
+      );
       this.commentModal.hide();
     });
   }

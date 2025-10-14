@@ -16,6 +16,7 @@ import { provideEffects } from '@ngrx/effects';
 import { AuthEffects } from './auth/auth.effects';
 import { authReducer } from './auth/auth.reducer';
 import { movieReducer } from './movies/movies.reducer';
+import { MoviesEffects } from './movies/movies.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,6 +26,6 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideStore({ auth: authReducer, movies: movieReducer }),
-    provideEffects([AuthEffects]),
+    provideEffects([AuthEffects, MoviesEffects]),
   ],
 };

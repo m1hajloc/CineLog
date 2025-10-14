@@ -10,7 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { MovieService } from '../services/movie.service';
 import { Router } from '@angular/router';
-import { newMovie } from '../movies/movies.action';
+import { createMovie, newMovie } from '../movies/movies.action';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -53,17 +53,7 @@ export class AddMovie implements OnInit {
   }
 
   public onSubmit() {
-    this.movieService.createMovie(this.getFormValue()).subscribe({
-      next: async (data) => {
-        this.store.dispatch(newMovie({ movie: data }));
-        this.router.navigate(['/home']);
-      },
-      error: (err) => {
-        const message =
-          err?.error?.message || 'Creation of movie failed. Please try again.';
-        alert(message);
-      },
-    });
+    this.store.dispatch(createMovie({ movie: this.getFormValue() }));
   }
 
   onFileSelected(event: Event) {

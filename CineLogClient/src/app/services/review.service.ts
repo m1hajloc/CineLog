@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { firstValueFrom, Observable, switchMap, take } from 'rxjs';
 import { selectToken } from '../auth/auth.selector';
-import { Review } from '../contracts';
+import { Movie, Review } from '../contracts';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class ReviewService {
   constructor(private store: Store, private http: HttpClient) {}
   private readonly apiUrl = environment.apiUrl;
 
-  leaveRating(review: Review): Observable<number> {
+  leaveRating(review: Review): Observable<Movie> {
     return this.store.select(selectToken).pipe(
       take(1),
       switchMap((token) => {
@@ -21,7 +21,7 @@ export class ReviewService {
         if (token) {
           headers = headers.set('Authorization', `Bearer ${token}`);
         }
-        return this.http.put<number>(`${this.apiUrl}review`, review, {
+        return this.http.put<Movie>(`${this.apiUrl}review`, review, {
           headers,
         });
       })

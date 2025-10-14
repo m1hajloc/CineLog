@@ -1,0 +1,24 @@
+
+That way, anyone can spin up the same DB quickly.
+
+---
+
+## 2. 📂 Put a `docker-compose.yml` in your project
+Instead of always typing long `docker run`, add a compose file at the project root:
+
+```yaml
+version: "3.8"
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql_server
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "docker11!!"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+volumes:
+  sql_data:

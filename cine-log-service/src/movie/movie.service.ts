@@ -18,7 +18,6 @@ export class MovieService {
   ) {}
 
   async create(createMovieDto: UpsertMovieDto) {
-
     let movieGenres = await this.genreService.findGenresByIds(
       createMovieDto.genres,
     );
@@ -30,7 +29,7 @@ export class MovieService {
       genres: movieGenres,
       poster: createMovieDto.poster ?? undefined,
     };
-    
+
     const createdMovie = this.movieRepository.create(movie);
     await this.movieRepository.save(createdMovie);
     return createdMovie;
@@ -38,13 +37,13 @@ export class MovieService {
 
   async findAll() {
     return await this.movieRepository.find({
-      relations: ['genres', 'reviews'],
+      relations: ['genres', 'reviews', 'reviews.user'],
     });
   }
 
   async findByGenres(genres: number[]) {
     return await this.movieRepository.find({
-      relations: ['genres'],
+      relations: ['genres', 'reviews', 'reviews.user'],
       where: {
         genres: {
           genreId: In(genres),

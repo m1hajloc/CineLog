@@ -3,6 +3,8 @@ import { Review, Status } from '../contracts';
 import { ReviewService } from '../services/review.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { upsertReviewSuccess } from '../movies/movies.action';
 
 declare var bootstrap: any;
 
@@ -13,7 +15,7 @@ declare var bootstrap: any;
   styleUrl: './review-item.css',
 })
 export class ReviewItem {
-  constructor(private service: ReviewService) {}
+  constructor(private service: ReviewService, private store: Store) {}
 
   ratings: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   @Output() removed = new EventEmitter<number>();
@@ -42,8 +44,13 @@ export class ReviewItem {
   }
 
   leaveRating() {
-    this.service.leaveRating(this.review).subscribe((newAverage) => {
-      if (this.review.movie) this.review.movie.average = newAverage;
+    this.service.leaveRating(this.review).subscribe((updatedMovie) => {
+      if (this.review.movie) this.review.movie = updatedMovie;
+      this.store.dispatch(
+        upsertReviewSuccess({
+          updatedMovie: updatedMovie,
+        })
+      );
       this.reviewModal.hide();
     });
   }
